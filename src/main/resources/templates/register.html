@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<jsp:include page="./layout/head.jsp" />
+
+<body style="color: rgb(36,44,59);background: #171a25;">
+    <jsp:include page="./layout/header.jsp" />
+    <div class="login-dark" style="color: rgb(30,37,50);">
+        <form method="post" style="background: #2e3240;height: 599px;width: 800px;border-radius: 7px;">
+            <h1 class="text-center">Inscription</h1>
+            <div class="form-group d-flex" style="margin-top: 41px;">
+                <input class="form-control" type="text" name="lastname" placeholder="Nom" style="width: 300px;">
+                <input class="form-control" type="text" name="firstname" placeholder="Prénom" style="width: 300px;margin-left: 120px;">
+            </div>
+            <div class="form-group">
+                <input class="form-control" type="email" name="email" placeholder="Email">
+            </div>
+            <div class="form-group d-flex" style="margin-top: 34px;">
+                <input class="form-control" type="password" name="password" placeholder="Password" style="margin-left: 0px;width: 300px;">
+                <input class="form-control" type="password" name="conf_password" placeholder="Confirm password" style="margin-left: 120px;width: 300px;">
+            </div>
+            <div class="form-group d-flex flex-wrap" style="margin-top: 38px;">
+                <input class="form-control" type="text" name="address" placeholder="Adresse: 17 rue Raoul Serviant">
+                <input class="form-control" type="number" name="code_postale" placeholder="Code postale" style="width: 300px;margin-top: 25px;">
+                <input class="form-control" type="text" name="city" placeholder="Ville" style="width: 300px;margin-left: 120px;margin-top: 25px;">
+            </div>
+            <div class="form-group" style="margin-top: 58px;">
+                <button class="btn btn-primary btn-block" type="submit" style="background: #f55959;">S'inscrire&nbsp;</button>
+            </div>
+            <a class="forgot" href="#">Déjà inscrit ?</a>
+        </form>
+    </div>
+    <jsp:include page="./layout/footer.jsp" />
+    <jsp:include page="./layout/scripts.jsp" />
+</body>
+
+</html>

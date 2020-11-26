@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <hibernate-configuration>
     <session-factory>
-        <property name="connection.url">jdbc:mysql://localhost:3306/java</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/coveat?zeroDateTimeBehavior=CONVERT_TO_NULL&amp;serverTimezone=UTC</property>
         <property name="connection.username">root</property>
-        <property name="connection.password"></property>
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="connection.password">root</property>
+        <property name="hibernate.hbm2ddl.auto">create</property>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
 
@@ -15,8 +15,6 @@
         <mapping class="fr.coveat.app.model.Dish" />
         <mapping class="fr.coveat.app.model.Command" />
         <mapping class="fr.coveat.app.model.CommandDetails" />
-
-
 
     </session-factory>
 </hibernate-configuration>

@@ -15,7 +15,6 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    @NotNull
     @OneToOne
     private Address address;
     private String name;

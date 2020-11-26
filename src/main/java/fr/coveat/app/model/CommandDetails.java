@@ -17,11 +17,9 @@ public class CommandDetails {
     private int id;
 
     @ManyToOne
-    @NotNull
     private Command command;
 
     @OneToOne
-    @NotNull
     private Dish dish;
 
     private int quantity;

@@ -14,23 +14,25 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class AppApplication {
 
 	public static void main(String[] args) {
-		final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
 
-		SessionFactory factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-		Session session = factory.openSession();
-		Transaction transaction = session.beginTransaction();
-
-//		Dish dish = new Dish();
-//		dish.setName("Produit magueule");
-//		dish.setDescription("Produit magueule");
-//		dish.setImageUrl("Produit magueule");
-//		dish.setPrice(50.5);
-
-//		session.save(dish);
-		transaction.commit();
-
-		session.close();
-		factory.close();
+		SpringApplication.run(AppApplication.class, args);
+//		final StandardServiceRegistry registry = new StandardServiceRegistryBuilder().configure().build();
+//
+//		SessionFactory factory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+//		Session session = factory.openSession();
+//		Transaction transaction = session.beginTransaction();
+//
+////		Dish dish = new Dish();
+////		dish.setName("Produit magueule");
+////		dish.setDescription("Produit magueule");
+////		dish.setImageUrl("Produit magueule");
+////		dish.setPrice(50.5);
+//
+////		session.save(dish);
+//			transaction.commit();
+//
+//		session.close();
+//		factory.close();
 	}
 
 }

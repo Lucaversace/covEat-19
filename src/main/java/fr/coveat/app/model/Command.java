@@ -13,23 +13,19 @@ import java.util.Date;
 public class Command {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @OneToOne
-    @NotNull
     private State state;
 
     @OneToOne
-    @NotNull
     private User user;
 
     @OneToOne
-    @NotNull
     private Restaurant restaurant;
 
     @OneToOne
-    @NotNull
     private Address address;
 
     private float price_total;

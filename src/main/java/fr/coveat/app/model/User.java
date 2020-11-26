@@ -16,9 +16,7 @@ public class User {
     private int id;
 
     @OneToOne
-    @NotNull
     private Address address;
-
     private String firstname;
     private String lastname;
     private String email;
