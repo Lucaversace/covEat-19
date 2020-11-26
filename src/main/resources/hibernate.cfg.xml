@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<hibernate-configuration>
+<hibernate-configuration xmlns:context="http://www.springframework.org/schema/context">
+    <context:property-placeholder location="classpath:application.properties"/>
     <session-factory>
-        <property name="connection.url">jdbc:mysql://localhost:3306/coveat?zeroDateTimeBehavior=CONVERT_TO_NULL&amp;serverTimezone=UTC</property>
-        <property name="connection.username">root</property>
-        <property name="connection.password">root</property>
-        <property name="hibernate.hbm2ddl.auto">create</property>
+        <property name="connection.url" value="${spring.datasource.url}"/>
+        <property name="connection.username" value="${spring.datasource.username}"/>
+        <property name="connection.password" value="${spring.datasource.password}"/>
+        <property name="hibernate.hbm2ddl.auto" value="${spring.jpa.hibernate.ddl-auto}"/>
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.format_sql">true</property>
 
