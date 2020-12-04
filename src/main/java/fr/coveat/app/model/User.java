@@ -7,9 +7,18 @@ import javax.persistence.*;
 
 @Data
 @Entity
-@AllArgsConstructor
-@NoArgsConstructor
 public class User {
+
+    public User() {
+    }
+
+    public User(String lastname, String firstname, String email, String password,  Address address) {
+        this.address = address;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.password = password;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -21,4 +30,7 @@ public class User {
     private String lastname;
     private String email;
     private String password;
+
+
+
 }

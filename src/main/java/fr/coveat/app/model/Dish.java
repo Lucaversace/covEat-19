@@ -20,6 +20,9 @@ public class Dish {
 
     private String description;
 
+    @OneToOne
+    private Restaurant restaurant;
+
     @Column(name = "image_url")
     private String imageUrl;
 }
