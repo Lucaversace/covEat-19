@@ -10,17 +10,21 @@
     <main class="container">
         <section class="p-5" style="background: rgba(255,255,255,0.12);border-radius: 20px;padding-bottom: 0px;margin: 140px 70px 30px">
                 <div class="d-flex flex-wrap justify-content-beetween">
-                    <h2 class="col-12 col-lg-10 text-white">Mes plats</h2>
-                    <a class="col-12 col-lg-2 btn btn-outline-primary" href="/restorer/add_dish">Ajouter un plat</a>
+                    <h2 class="col-12 col-lg-6 text-white">Mes plats</h2>
+                    <div class="col-12 col-lg-6 p-0 text-right">
+                        <a class="btn btn-outline-secondary" href="/restorer/add_dish" style="background:none;border:none;"><ion-icon name="add-circle-outline" size="large"></ion-icon></i></a>
+                    </div>
                 </div>
                 <hr class="mx-0 col-4 border-bottom border-white">
                 <div style="margin-bottom: 50px;" th:each="dish : ${dishes}" th:remove="tag">
                     <div class="row d-flex align-item-center" style="padding:0 0 15px 15px;">
-                        <img class="col-12 col-md-4 rounded" th:src="${dish.imageUrl}">
-                        <h4 class="text-center text-white col-12 col-md-5" th:text="${dish.name}"></h4>
-                        <div  class="col-12 col-md-3">
-                            <a class="btn btn-outline-warning" href="/restorer/edit_dish">Modifier</a>
-                            <a class="btn btn-outline-danger" href="/restorer/delete_dish">Supprimer</a>
+                        <img class="col-12 col-lg-5 rounded" th:src="${dish.imageUrl}">
+                        <div class="col-12 col-lg-5 d-flex align-items-center justify-content-center">
+                            <h5 class="text-center text-white" th:text="${dish.name}"></h5>
+                        </div>
+                        <div class="col-12 col-lg-2 d-flex align-items-center justify-content-between">
+                            <a class="btn btn-outline-primary" href="/restorer/edit_dish" style="background:none;border:none;"><ion-icon name="create" style="font-size:20px"></ion-icon></a>
+                            <a class="btn btn-outline-danger" href="/restorer/delete_dish" style="background:none;border:none;"><ion-icon name="trash" style="font-size:20px"></ion-icon></a>
                         </div>
                     </div>
                 </div>
