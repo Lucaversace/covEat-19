@@ -4,6 +4,7 @@ import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Data
 @Entity
@@ -17,9 +18,14 @@ public class Restaurant {
 
     @OneToOne
     private Address address;
+
     private String name;
     private String email;
     private String password;
     private String image_url;
+
+    @OneToMany
+    private List<Dish> dishes;
+
 
 }

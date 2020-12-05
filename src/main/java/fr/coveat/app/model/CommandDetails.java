@@ -18,7 +18,7 @@ public class CommandDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne
+    @OneToOne
     private Command command;
 
     @OneToOne

@@ -4,6 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -26,6 +27,9 @@ public class Command {
 
     @OneToOne
     private Address address;
+
+    @OneToMany
+    private List<CommandDetails> commandDetails;
 
     private float price_total;
     private Date date;
