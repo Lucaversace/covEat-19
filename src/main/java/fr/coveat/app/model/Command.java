@@ -29,5 +29,6 @@ public class Command {
     private Address address;
 
     private float price_total;
+
     private Date date;
 }

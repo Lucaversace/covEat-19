@@ -25,4 +25,5 @@ public class Dish {
 
     @Column(name = "image_url")
     private String imageUrl;
+
 }
