@@ -13,10 +13,11 @@
                 </div>
                 <hr class="modern-form__hr" style="background: #ffffff;border-color: rgb(255,255,255);">
                 <div class="modern-form__form-container">
-                    <form>
+                    <form th:action="@{/add-dish}" th:object="${dish}" method="post">
                         <div class="form-row">
                             <div class="col col-contact">
-                                <div class="form-group modern-form__form-group--padding-r"><input class="form-control input input-tr" type="text" placeholder="Nom du plat">
+                                <div class="form-group modern-form__form-group--padding-r">
+                                    <input class="form-control input input-tr" type="text" placeholder="Nom du plat" th:field="*{name}">
                                     <div class="line-box">
                                         <div class="line"></div>
                                     </div>
@@ -32,7 +33,8 @@
                         </div>
                         <div class="form-row">
                             <div class="col">
-                                <div class="form-group modern-form__form-group--padding-t"><textarea class="form-control input modern-form__form-control--textarea" placeholder="Description" style="color: rgb(73,80,87);"></textarea>
+                                <div class="form-group modern-form__form-group--padding-t">
+                                    <textarea class="form-control input modern-form__form-control--textarea" placeholder="Description" style="color: rgb(73,80,87);" th:field="*{description}"></textarea>
                                     <div class="line-box">
                                         <div class="line"></div>
                                     </div>
@@ -42,7 +44,7 @@
                         <div class="form-row">
                             <div class="col">
                                 <div class="form-group modern-form__form-group--padding-t">
-                                    <p style="border-color: rgb(255,255,255);color: rgb(99,102,105);margin-right: -18px;">&nbsp; &nbsp;Photo :</p><input type="file" style="margin-left: 14px;color: rgb(255,255,255);">
+                                    <p style="border-color: rgb(255,255,255);color: rgb(99,102,105);margin-right: -18px;">&nbsp; &nbsp;Photo :</p><input type="file" style="margin-left: 14px;color: rgb(255,255,255);" th:field="*{imageUrl}">
                                     <div class="line-box">
                                         <div class="line"></div>
                                     </div>
@@ -51,7 +53,7 @@
                         </div>
                         <div class="form-row">
                             <div class="col text-center">
-                            <button class="btn btn-primary submit-now" type="submit">Enregistrer mon plat</button>
+                                <button class="btn btn-primary submit-now" type="submit">Enregistrer mon plat</button>
                             </div>
                         </div>
                     </form>
