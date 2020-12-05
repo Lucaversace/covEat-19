@@ -27,7 +27,10 @@ public class RestorerController {
 
     @RequestMapping(value = {"/restorer/add_dish"}, method = RequestMethod.POST )
     public String postCreateDish(@ModelAttribute("dish") Dish dish) {
-        return "dish";
+
+        dishRepository.save(dish);
+
+        return "redirect:/restorer/";
     }
 
     @RequestMapping(value = {"/restorer/edit_dish"}, method = RequestMethod.GET )
@@ -39,6 +42,6 @@ public class RestorerController {
     @RequestMapping(value = {"/restorer/delete_dish"}, method = RequestMethod.GET )
     public String deleteDish() {
 
-        return "dish_list";
+        return "redirect:/restorer/";
     }
 }
