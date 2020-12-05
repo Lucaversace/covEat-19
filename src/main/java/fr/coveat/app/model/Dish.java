@@ -19,8 +19,8 @@ public class Dish {
     private Double price;
 
     private String description;
-
-    @ManyToOne
+    
+    @OneToOne
     private Restaurant restaurant;
 
     @Column(name = "image_url")
