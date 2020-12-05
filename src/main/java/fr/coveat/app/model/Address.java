@@ -10,8 +10,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 public class Address {
 
-    public Address() {
-    }
 
     public Address(Integer zipCode, String city, String street) {
         this.zipCode = zipCode;
