@@ -20,7 +20,7 @@ public class Dish {
 
     private String description;
 
-    @OneToOne
+    @ManyToOne
     private Restaurant restaurant;
 
     @Column(name = "image_url")

@@ -24,8 +24,5 @@ public class Restaurant {
     private String password;
     private String image_url;
 
-    @OneToMany
-    private List<Dish> dishes;
-
 
 }

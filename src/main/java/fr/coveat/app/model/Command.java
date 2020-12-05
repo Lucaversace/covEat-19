@@ -28,9 +28,6 @@ public class Command {
     @OneToOne
     private Address address;
 
-    @OneToMany
-    private List<CommandDetails> commandDetails;
-
     private float price_total;
     private Date date;
 }

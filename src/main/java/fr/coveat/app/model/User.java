@@ -1,6 +1,5 @@
 package fr.coveat.app.model;
 
-import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
