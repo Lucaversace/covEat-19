@@ -1,9 +1,6 @@
 package fr.coveat.app.form;
 
-import fr.coveat.app.model.Address;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Data
 public class UserForm {
@@ -15,5 +12,6 @@ public class UserForm {
     private String lastname;
     private String email;
     private String password;
+    private String kaka;
 
-}
+    }
