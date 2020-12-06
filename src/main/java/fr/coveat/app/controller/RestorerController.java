@@ -1,6 +1,7 @@
 package fr.coveat.app.controller;
 
 import fr.coveat.app.model.Dish;
+import fr.coveat.app.model.Restaurant;
 import fr.coveat.app.repository.DishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,10 @@ public class RestorerController {
 
     @RequestMapping(value = {"/restorer/add_dish"}, method = RequestMethod.POST )
     public String postCreateDish(@ModelAttribute("dish") Dish dish) {
-
+    	// A MODIFIER APRES LES SESSIONS
+    	Restaurant restaurant=new Restaurant(); 
+    	restaurant.setId(1);
+    	dish.setRestaurant(restaurant);
         dishRepository.save(dish);
 
         return "redirect:/restorer/";

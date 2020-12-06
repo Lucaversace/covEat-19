@@ -14,7 +14,7 @@ public class IndexController {
     IndexController (DishRepository dishRepository){
         this.dishRepository = dishRepository;
     }
-    @RequestMapping(value = {"/home"}, method = RequestMethod.GET )
+    @RequestMapping(value = {"/"}, method = RequestMethod.GET )
     public String home(Model model) {
         model.addAttribute("dishes", dishRepository.findAll());
         System.out.println(dishRepository.findAll());
