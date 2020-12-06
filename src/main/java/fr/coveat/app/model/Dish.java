@@ -28,9 +28,6 @@ public class Dish {
     private String description;
     
     @OneToOne
-    private Restaurant restaurant;
-
-    @OneToOne
     @NotNull
     @JoinColumn(nullable = false)
     private Restaurant restaurant;
