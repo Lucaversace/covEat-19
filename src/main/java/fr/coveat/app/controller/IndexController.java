@@ -20,4 +20,5 @@ public class IndexController {
         System.out.println(dishRepository.findAll());
         return "home";
     }
+    
 }

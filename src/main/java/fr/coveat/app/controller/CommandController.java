@@ -32,7 +32,7 @@ public class CommandController {
     @PostMapping(value = "/{id}")
     public Command create(@RequestBody Command command){
         return commandRepository.save(command);
-
+ 
     }
 
     @PutMapping(value="/{id}")

@@ -21,6 +21,6 @@ public class Restaurant {
     private String email;
     private String password;
     private String image_url;
-
+    
 
 }
