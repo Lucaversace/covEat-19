@@ -65,7 +65,6 @@ public class AuthController {
         String firstname = userForm.getFirstname();
         String email = userForm.getEmail();
         String password = userForm.getPassword();
-        userForm.setKaka("zob");
         String confkaka = userForm.getKaka();
 
         matcherStreet = patternStreet.matcher(street);
@@ -86,6 +85,8 @@ public class AuthController {
                                         String pwHash = BCrypt.hashpw(password, BCrypt.gensalt());
                                         User newUser = new User(lastname, firstname, email, pwHash, address);
                                         userRepository.save(newUser);
+                                        System.out.print("compte crée");
+
                                     }
                                     else{
                                         System.out.print("password différent");
@@ -95,6 +96,8 @@ public class AuthController {
                                 }
                                 else{
                                     System.out.print("password non valide");
+                                    System.out.print("password" + password);
+                                    System.out.print("confpassword" + confkaka);
                                 }
                             } else{
                                 System.out.print("email non valide");
