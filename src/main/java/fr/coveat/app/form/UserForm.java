@@ -10,7 +10,7 @@ public class UserForm {
 
     private String street;
     private String city;
-    private Integer zipCode;
+    private String zipCode;
     private String firstname;
     private String lastname;
     private String email;

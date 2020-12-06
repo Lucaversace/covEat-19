@@ -1,9 +1,9 @@
 package fr.coveat.app.model;
 
-import com.sun.istack.NotNull;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -17,11 +17,18 @@ public class CommandDetails {
     private int id;
 
     @ManyToOne
+    @JoinColumn(nullable = false)
+    @NotNull
     private Command command;
 
     @OneToOne
+    @JoinColumn(nullable = false)
+    @NotNull
     private Dish dish;
 
+    @NotNull
     private int quantity;
+
+    @NotNull
     private float price;
 }

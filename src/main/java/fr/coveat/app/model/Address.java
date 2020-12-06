@@ -3,6 +3,7 @@ package fr.coveat.app.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -11,7 +12,7 @@ import javax.persistence.*;
 public class Address {
 
 
-    public Address(Integer zipCode, String city, String street) {
+    public Address(String zipCode, String city, String street) {
         this.zipCode = zipCode;
         this.city = city;
         this.street = street;
@@ -20,8 +21,17 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-    private Integer zipCode;
+
+    @Column(nullable = false)
+    @NotNull
+    private String zipCode;
+
+    @Column(nullable = false)
+    @NotNull
     private String city;
+
+    @Column(nullable = false)
+    @NotNull
     private String street;
 
 }
