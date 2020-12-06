@@ -3,6 +3,7 @@ package fr.coveat.app.model;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -14,16 +15,28 @@ public class Dish {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @NotNull
+    @Column(nullable = false)
     private String name;
 
+    @NotNull
+    @Column(nullable = false)
     private Double price;
 
+    @NotNull
+    @Column(nullable = false)
     private String description;
     
     @OneToOne
     private Restaurant restaurant;
 
-    @Column(name = "image_url")
+    @OneToOne
+    @NotNull
+    @JoinColumn(nullable = false)
+    private Restaurant restaurant;
+
+    @NotNull
+    @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
 }
