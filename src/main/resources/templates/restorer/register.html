@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:replace="~{/layout/head :: head}"></div>
+
+<body style="color: rgb(36,44,59);background: #171a25;">
+<div th:replace="~{/layout/header :: header}"></div>
+    <div class="login-dark" style="color: rgb(30,37,50);">
+        <form th:action="@{/register}" th:object="${userForm}" method="POST" style="background: #2e3240;height: 599px;width: 800px;border-radius: 7px;">
+            <h1 class="text-center">Inscription</h1>
+            <div class="form-group d-flex row" style="margin-top: 41px;">
+                <input th:field="*{lastname}" class="form-control" type="text" name="lastname" placeholder="Nom" style="width: 300px;">
+                <input th:field="*{firstname}" class="form-control" type="text" name="firstname" placeholder="Prénom" style="width: 300px;margin-left: 120px;">
+            </div>
+            <div class="form-group row">
+                <input th:field="*{email}" class="form-control" type="email" name="email" placeholder="Email">
+            </div>
+            <div class="form-group d-flex row" style="margin-top: 34px;">
+                <input th:field="*{password}" id="pass" class="form-control" type="password" name="password" placeholder="Password" style="margin-left: 0px;width: 300px;">
+                <input th:field="*{kaka}" id="confpass" class="form-control" type="password" name="kaka" placeholder="Confirm password" style="margin-left:120px;width:300px;">
+            </div>
+            <div class="form-group d-flex flex-wrap row" style="margin-top: 38px;">
+                <input th:field="*{street}" class="form-control" type="text" name="street" placeholder="Adresse: 17 rue Raoul Serviant">
+            </div>
+            <div class="row form-group ">
+                <input th:field="*{zipCode}" id="zipcode" class="form-control" type="text" name="zipCode" placeholder="Code postale" style="width: 300px;margin-top: 25px;">
+
+                <input th:field="*{city}" class="form-control" type="text" name="city" placeholder="Ville" style="width: 300px;margin-left: 120px;margin-top: 25px;">
+            </div>
+            <span class="error d-none" id="errorZipCode" style="color:red;font-size:10px;" th:utext="${errorZipCode}"></span>
+            <div class="form-group" style="margin-top: 58px;">
+                <button class="btn btn-primary btn-block" type="submit" style="background: #f55959;">S'inscrire&nbsp;</button>
+            </div>
+            <a class="forgot" href="#">Déjà inscrit ?</a>
+        </form>
+    </div>
+    <div th:replace="~{/layout/footer :: footer}"></div>
+    <div th:include="~{/layout/scripts :: scripts}"></div>
+    <script  src="/js/register.js"></script>
+</body>
+
+</html>
