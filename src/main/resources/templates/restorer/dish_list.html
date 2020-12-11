@@ -23,8 +23,8 @@
                             <h5 class="text-center text-white" th:text="${dish.name}"></h5>
                         </div>
                         <div class="col-12 col-lg-2 d-flex align-items-center justify-content-between">
-                            <a class="btn btn-outline-primary" href="/restorer/edit_dish" style="background:none;border:none;"><ion-icon name="create" style="font-size:20px"></ion-icon></a>
-                            <a class="btn btn-outline-danger" href="/restorer/delete_dish" style="background:none;border:none;"><ion-icon name="trash" style="font-size:20px"></ion-icon></a>
+                            <a class="btn btn-outline-primary" th:href="@{/restorer/{id}/edit_dish(id=${dish.id})}" style="background:none;border:none;"><ion-icon name="create" style="font-size:20px"></ion-icon></a>
+                            <a class="btn btn-outline-danger" th:href="@{/restorer/{id}/delete_dish(id=${dish.id})}" style="background:none;border:none;"><ion-icon name="trash" style="font-size:20px"></ion-icon></a>
                         </div>
                     </div>
                 </div>
