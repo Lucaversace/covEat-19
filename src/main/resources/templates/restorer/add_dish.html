@@ -4,49 +4,48 @@
 <div th:replace="~{/layout/head :: head}"></div>
 <div th:replace="~{/layout/header :: header}"></div>
 
- <body style="color: #2b3245;background: #171a23;">
+<body style="color: #2b3245;background: #171a23;">
     <main class="container">
         <section  class="p-5" style="background: rgba(255,255,255,0.12);border-radius: 20px;padding-bottom: 0px;margin: 140px 70px 30px">
-                <div class="text-center">
-                    <h5 style="color: #ffffff;font-size: 45px;">Nouveau Plat</h5>
+            <div class="text-center">
+                <h5 style="color: #ffffff;font-size: 45px;">Nouveau Plat</h5>
+            </div>
+            <hr class="text-center mb-5" style="width:150px;background: #ffffff;border-color: #fff;">
+            <form th:action="@{/restorer/add_dish}" th:object="${dishForm}" method="post">
+                <div class="form-row">
+                    <input class="form-control input input-tr col-12 col-lg-6" type="text" required="required" placeholder="Nom du plat" th:field="*{name}" style="color: #fff;">
+                    <div class="col-lg-1"></div>
+                    <input class="form-control input input-tr col-12 col-lg-5" type="number" required="required" step="0.01" placeholder="Prix unitaire" th:field="*{price}" style="color: #fff;">
                 </div>
-                <hr class="text-center mb-5" style="width:150px;background: #ffffff;border-color: #fff;">
-                <form th:action="@{/restorer/add_dish}" th:object="${dishForm}" method="post">
-                    <div class="form-row">
-                        <input class="form-control input input-tr col-12 col-lg-6" type="text" placeholder="Nom du plat" th:field="*{name}" style="color: #fff;">
-                        <div class="col-lg-1"></div>
-                        <input class="form-control input input-tr col-12 col-lg-5" type="text" placeholder="Prix unitaire" th:field="*{price}" style="color: #fff;">
+                <div class="form-row">
+                    <div class="input-group input-file mt-4" name="Photo">
+                        <input type="text" class="form-control input input-tr" required="required" th:field="*{imageUrl}" placeholder='Photo' style="color: #fff;"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default btn-choose btn-secondary" type="button" style="color: #fff;">Selectionner</button>
+                        </span>
                     </div>
-                    <div class="form-row">
-                        <div class="input-group input-file mt-4" name="Photo">
-                            <input type="text" class="form-control input input-tr" th:field="*{imageUrl}" placeholder='Photo' style="color: #fff;"/>
-                            <span class="input-group-btn">
-        		                <button class="btn btn-default btn-choose btn-secondary" type="button" style="color: #fff;">Selectionner</button>
-                            </span>
-                        </div>
-<!--                        <input type="file" class="input input-tr" style="margin-left: 14px; color: #fff;" th:field="*{imageUrl}" placeholder="Photo">-->
+                </div>
+                <div class="form-row">
+                    <div class="form-group modern-form__form-group col mt-4 p-0">
+                        <textarea class="form-control input modern-form__form-control--textarea" required="required" placeholder="Description" style="color: #fff;" th:field="*{description}"></textarea>
                     </div>
-                    <div class="form-row">
-                        <div class="form-group modern-form__form-group col mt-4">
-                            <textarea class="form-control input modern-form__form-control--textarea" placeholder="Description" style="color: #fff;" th:field="*{description}"></textarea>
-                        </div>
+                </div>
+                <div class="form-row">
+                    <div class="col text-center mt-4">
+                        <button class="btn" style="background:#f55959;color: #fff;" type="submit">Enregistrer mon plat</button>
                     </div>
-                    <div class="form-row">
-                        <div class="col text-center mt-4">
-                            <button class="btn" style="background:#f55959;color: #fff;" type="submit">Enregistrer mon plat</button>
-                        </div>
-                    </div>
-                </form>
+                </div>
+            </form>
         </section>
     </main>
-        <div th:replace="~{/layout/footer :: footer}"></div>
-        <div th:include="~{/layout/scripts :: scripts}"></div>
+    <div th:replace="~{/layout/footer :: footer}"></div>
+    <div th:include="~{/layout/scripts :: scripts}"></div>
     <script>
         function bs_input_file() {
             $(".input-file").before(
                 function() {
                     if ( ! $(this).prev().hasClass('input-ghost') ) {
-                        var element = $("<input type='file' class='input-ghost' style='visibility:hidden; height:0'>");
+                        var element = $("<input type='file' name='photo' class='input-ghost' style='visibility:hidden; height:0' accept='image/png, image/jpeg' required='required'>");
                         element.attr("name",$(this).attr("name"));
                         element.change(function(){
                             element.next(element).find('input').val((element.val()).split('\\').pop());

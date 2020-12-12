@@ -1,64 +1,71 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org" lang="en">
-
 <div th:replace="~{/layout/head :: head}"></div>
-    <div th:replace="~{/layout/header :: header}"></div>
-
+<div th:replace="~{/layout/header :: header}"></div>
 
 <body style="color: #2b3245;background: #171a23;">
-    <main class="d-xl-flex justify-content-xl-center" style="margin-top: 139px;">
-        <section class="d-xl-flex getintouch" style="background: rgba(255,255,255,0.12);width: 1601px;border-radius: 10px;margin-bottom: 30px;">
-            <div class="container modern-form">
-                <div class="text-center">
-                    <h4 style="color: #ffffff;font-size: 45px;">Modifier Plat</h4>
-                </div>
-                <hr class="modern-form__hr" style="background: #ffffff;border-color: rgb(255,255,255);">
-                <div class="modern-form__form-container">
-                    <form>
-                        <div class="form-row">
-                            <div class="col col-contact">
-                                <div class="form-group modern-form__form-group--padding-r">
-                                    <input class="form-control input input-tr" type="text" placeholder="*Requête  pour avoir le nom du plat*">
-                                    <div class="line-box">
-                                        <div class="line"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col col-contact">
-                                <div class="form-group modern-form__form-group--padding-l">
-                                    <div class="line-box">
-                                        <div class="line"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                                <div class="form-group modern-form__form-group--padding-t">
-                                    <textarea class="form-control input modern-form__form-control--textarea" placeholder="* Requete pour avoir la description de ce plat*" style="color: rgb(73,80,87);">
-                                    </textarea>
-                                </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col">
-                                <div class="form-group modern-form__form-group--padding-t">
-                                    <p style="border-color: rgb(255,255,255);color: rgb(99,102,105);margin-right: -18px;">&nbsp; &nbsp;Photo :</p><input type="file" style="margin-left: 14px;color: rgb(255,255,255);">
-                                    <div class="line-box">
-                                        <div class="line"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="col text-center"><button class="btn btn-primary submit-now" type="submit">Enregistrer mon plat</button></div>
-                        </div>
-                    </form>
-                </div>
+    <main class="container">
+        <section  class="p-5" style="background: rgba(255,255,255,0.12);border-radius: 20px;padding-bottom: 0px;margin: 140px 70px 30px">
+            <div class="text-center">
+                <h5 style="color: #ffffff;font-size: 45px;">Modifier plat</h5>
             </div>
+            <hr class="text-center mb-5" style="width:150px;background: #ffffff;border-color: #fff;">
+            <form th:action="@{/restorer/{id}/edit_dish(id=${dishForm.id})}" th:object="${dishForm}" method="post">
+                <div class="form-row">
+                    <input class="form-control input input-tr col-12 col-lg-6" type="text" required="required" placeholder="Nom du plat" th:field="*{name}" th:value="${dishForm.name}" style="color: #fff;">
+                    <div class="col-lg-1"></div>
+                    <input class="form-control input input-tr col-12 col-lg-5" type="number" required="required" step="0.01" placeholder="Prix unitaire" th:field="*{price}" th:value="${dishForm.price}" style="color: #fff;">
+                </div>
+                <div class="form-row">
+                    <div class="input-group input-file mt-4">
+                        <input type="text" class="form-control input input-tr" required="required" th:field="*{imageUrl}" placeholder='Photo' th:value="${dishForm.imageUrl}" style="color: #fff;"/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-default btn-choose btn-secondary" type="button" style="color: #fff;">Selectionner</button>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group modern-form__form-group col mt-4 p-0">
+                        <textarea class="form-control input modern-form__form-control--textarea" required="required" placeholder="Description" style="color: #fff;" th:value="${dishForm.description}" th:field="*{description}"></textarea>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col text-center mt-4">
+                        <button class="btn" style="background:#f55959;color: #fff;" type="submit">Enregistrer mon plat</button>
+                    </div>
+                </div>
+            </form>
         </section>
     </main>
-        <div th:replace="~{/layout/footer :: footer}"></div>
-        <div th:include="~{/layout/scripts :: scripts}"></div>
+    <div th:replace="~{/layout/footer :: footer}"></div>
+    <div th:include="~{/layout/scripts :: scripts}"></div>
+    <script>
+        function bs_input_file() {
+            $(".input-file").before(
+                function() {
+                    if ( ! $(this).prev().hasClass('input-ghost') ) {
+                        var element = $("<input type='file' name='photo' class='input-ghost' style='visibility:hidden; height:0' accept='image/png, image/jpeg' required='required'>");
+                        element.attr("name",$(this).attr("name"));
+                        element.change(function(){
+                            element.next(element).find('input').val((element.val()).split('\\').pop());
+                        });
+                        $(this).find("button.btn-choose").click(function(){
+                            element.click();
+                        });
+                        $(this).find('input').css("cursor","pointer");
+                        $(this).find('input').mousedown(function() {
+                            $(this).parents('.input-file').prev().click();
+                            return false;
+                        });
+                        return element;
+                    }
+                }
+            );
+        }
+        $(function() {
+            bs_input_file();
+        });
+    </script>
 </body>
-
 </html>
