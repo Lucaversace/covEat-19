@@ -18,7 +18,7 @@
                 <hr class="mx-0 col-4 border-bottom border-white">
                 <div style="margin-bottom: 50px;" th:each="dish : ${dishes}" th:remove="tag">
                     <div class="row d-flex align-item-center" style="padding:0 0 15px 15px;">
-                        <img class="col-12 col-lg-5 rounded" th:src="${dish.imageUrl}">
+                        <img class="col-12 col-lg-5 rounded" th:src="@{../img/dishes/{imgName}(imgName=${dish.imageUrl})}">
                         <div class="col-12 col-lg-5 d-flex align-items-center justify-content-center">
                             <h5 class="text-center text-white" th:text="${dish.name}"></h5>
                         </div>

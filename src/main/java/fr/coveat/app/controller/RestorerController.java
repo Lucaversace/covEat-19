@@ -50,7 +50,7 @@ public class RestorerController {
             if(!name.isEmpty() && !price.isNaN() && !description.isEmpty() && !imageUrl.isEmpty()){
                 String random = new Random().toString().replace("java.util.Random@","");
                 String fileName = restaurant.getId() + "-" + random + "-" + StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-                String uploadDir = "src/main/resources/img/dishes" ;
+                String uploadDir = "src/main/resources/static/img/dishes" ;
                 dish.setImageUrl(fileName);
                 FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 
@@ -91,7 +91,7 @@ public class RestorerController {
                     if(!dish.getImageUrl().equals(imageUrl)){
                         String random = new Random().toString().replace("java.util.Random@","");
                         String fileName = dish.getRestaurant().getId() + "-" + random + "-" + StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-                        String uploadDir = "src/main/resources/img/dishes" ;
+                        String uploadDir = "src/main/resources/static/img/dishes" ;
                         dish.setImageUrl(fileName);
                         FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
                     }
