@@ -45,7 +45,7 @@
             $(".input-file").before(
                 function() {
                     if ( ! $(this).prev().hasClass('input-ghost') ) {
-                        var element = $("<input type='file' name='photo' class='input-ghost' style='visibility:hidden; height:0' accept='image/png, image/jpeg' required='required'>");
+                        var element = $("<input type='file' name='photo' class='input-ghost' style='visibility:hidden; height:0' accept='image/png, image/jpeg'>");
                         element.attr("name",$(this).attr("name"));
                         element.change(function(){
                             element.next(element).find('input').val((element.val()).split('\\').pop());

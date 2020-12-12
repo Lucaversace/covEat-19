@@ -18,7 +18,6 @@
                     <input class="form-control input input-tr col-12 col-lg-5" type="number" required="required" step="0.01" placeholder="Prix unitaire" th:field="*{price}" style="color: #fff;">
                 </div>
                 <div class="form-row">
-<!--                    <input type="file" name="photo" class="form-control input input-tr" required="required" placeholder='Photo' style="color: #fff;"/>-->
                     <div class="input-group input-file mt-4">
                         <input type="text" class="form-control input input-tr" required="required" th:field="*{imageUrl}" placeholder='Photo' style="color: #fff;"/>
                         <span class="input-group-btn">
@@ -46,7 +45,7 @@
             $(".input-file").before(
                 function() {
                     if ( ! $(this).prev().hasClass('input-ghost') ) {
-                        var element = $("<input type='file' name='photo' class='input-ghost' style='visibility:hidden; height:0' accept='image/png, image/jpeg' required='required'>");
+                        var element = $("<input type='file' name='photo' class='input-ghost' style='visibility:hidden; height:0' accept='image/png, image/jpeg'>");
                         element.attr("name",$(this).attr("name"));
                         element.change(function(){
                             element.next(element).find('input').val((element.val()).split('\\').pop());

@@ -72,7 +72,7 @@ public class RestorerController {
     }
 
     @RequestMapping(value = {"/restorer/{id}/edit_dish"}, method = RequestMethod.POST )
-    public String editDish(@PathVariable("id") Long id, @ModelAttribute("dishForm") DishForm dishForm) {
+    public String editDish(@PathVariable("id") Long id, @ModelAttribute("dishForm") DishForm dishForm, @RequestParam(value = "photo", required = false) MultipartFile multipartFile) throws IOException {
         if (dishRepository.existsById(id)) {
             Dish dish = dishRepository.getOne(id);
 
@@ -83,10 +83,18 @@ public class RestorerController {
                 String imageUrl = dishForm.getImageUrl();
 
                 if(!name.isEmpty() && !price.isNaN() && !description.isEmpty() && !imageUrl.isEmpty()){
+
                     dish.setName(name);
                     dish.setPrice(price);
                     dish.setDescription(description);
-                    dish.setImageUrl(imageUrl);
+
+                    if(!dish.getImageUrl().equals(imageUrl)){
+                        String random = new Random().toString().replace("java.util.Random@","");
+                        String fileName = dish.getRestaurant().getId() + "-" + random + "-" + StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+                        String uploadDir = "src/main/resources/img/dishes" ;
+                        dish.setImageUrl(fileName);
+                        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+                    }
 
                     dishRepository.save(dish);
                 }
