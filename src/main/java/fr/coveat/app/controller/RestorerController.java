@@ -4,6 +4,7 @@ import fr.coveat.app.form.DishForm;
 import fr.coveat.app.model.Dish;
 import fr.coveat.app.model.Restaurant;
 import fr.coveat.app.repository.DishRepository;
+import fr.coveat.app.service.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,10 @@ import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.Objects;
+import java.util.Random;
 
 @Controller
 public class RestorerController {
@@ -31,7 +36,7 @@ public class RestorerController {
     }
 
     @RequestMapping(value = {"/restorer/add_dish"}, method = RequestMethod.POST )
-    public String postCreateDish(@ModelAttribute("dish") Dish dish) {
+    public String postCreateDish(@ModelAttribute("dish") Dish dish, @RequestParam(value = "photo", required = false) MultipartFile multipartFile) throws IOException {
         if(dish.getName() != null && dish.getPrice() != null && dish.getDescription() != null && dish.getImageUrl() != null){
             String name = dish.getName();
             Double price = dish.getPrice();
@@ -43,9 +48,11 @@ public class RestorerController {
             restaurant.setId(1);
 
             if(!name.isEmpty() && !price.isNaN() && !description.isEmpty() && !imageUrl.isEmpty()){
-    //            String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-    //            String uploadDir = "dishes-pic/"  + fileName + dish.getId();
-    //            FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+                String random = new Random().toString().replace("java.util.Random@","");
+                String fileName = restaurant.getId() + "-" + random + "-" + StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+                String uploadDir = "src/main/resources/img/dishes" ;
+                dish.setImageUrl(fileName);
+                FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
 
                 dish.setRestaurant(restaurant);
                 dishRepository.save(dish);

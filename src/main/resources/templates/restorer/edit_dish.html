@@ -11,7 +11,7 @@
                 <h5 style="color: #ffffff;font-size: 45px;">Modifier plat</h5>
             </div>
             <hr class="text-center mb-5" style="width:150px;background: #ffffff;border-color: #fff;">
-            <form th:action="@{/restorer/{id}/edit_dish(id=${dishForm.id})}" th:object="${dishForm}" method="post">
+            <form th:action="@{/restorer/{id}/edit_dish(id=${dishForm.id})}" th:object="${dishForm}" method="post" enctype="multipart/form-data">
                 <div class="form-row">
                     <input class="form-control input input-tr col-12 col-lg-6" type="text" required="required" placeholder="Nom du plat" th:field="*{name}" th:value="${dishForm.name}" style="color: #fff;">
                     <div class="col-lg-1"></div>
