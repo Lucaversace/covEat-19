@@ -23,6 +23,8 @@ public class AuthController {
 
     private UserRepository userRepository;
     private AddressRepository addressRepository;
+    private RestorerRepository restorerRepository;
+	private static Matcher matcherImage_url;
     private static Pattern patternStreet = Pattern.compile("^(\\d+) [a-zA-Z0-9\\s]+(.)? [a-zA-Z]+(.)?$");
     private static Matcher matcherStreet;
     private static Pattern patternZipCode = Pattern.compile("^((0[1-9])|([1-8][0-9])|(9[0-8])|(2A)|(2B))[0-9]{3}$");
@@ -32,10 +34,12 @@ public class AuthController {
     private static Pattern patternPassword = Pattern.compile("^(?=.{8,}$)(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).*$");
     private static Matcher matcherPassword;
 
-    AuthController(UserRepository userRepository, AddressRepository addressRepository) {
+    AuthController(UserRepository userRepository, AddressRepository addressRepository, RestorerRepository restorerRepository) {
         this.userRepository = userRepository;
         this.addressRepository = addressRepository;
+        this.restorerRepository = restorerRepository;
     }
+    
     @RequestMapping(value = {"login"}, method = RequestMethod.GET )
     public String login() {
 
@@ -134,13 +138,7 @@ public class AuthController {
 ///////////////////////////////////////////////////////////////////////////////    
 ///////////////////////////////////////////////////////////////////////////////   
 
-    
-    private RestorerRepository restorerRepository;
-
-    	AuthController(RestorerRepository restorerRepository, AddressRepository addressRepository) {
-        this.restorerRepository = restorerRepository;
-        this.addressRepository = addressRepository;
-    }
+   
       
 //    @RequestMapping(value = {"login"}, method = RequestMethod.GET )
 //    public String login() {
@@ -152,10 +150,10 @@ public class AuthController {
 
     @RequestMapping(value = {"register_restorer"}, method = RequestMethod.GET )
     public String showRegister_Restorer(Model model) {
-        RestorerForm restorerForm = new RestorerForm();
-		model.addAttribute("restorerForm", restorerForm);
+    	RestorerForm restorerForm = new RestorerForm();
+    	model.addAttribute("restorerForm", restorerForm);
         model.addAttribute("errorZipCode", errorZipCode);
-        return "register";
+        return "register_restorer";
     }
 
     @RequestMapping(value = { "/register_restorer" }, method = RequestMethod.POST)
@@ -183,48 +181,47 @@ public class AuthController {
                     Address address = new Address(zipCode, street, city);
                     addressRepository.save(address);
                     if (!name.isEmpty() && name.length() > 1){
-                            if (!email.isEmpty() && matcherEmail.find()){
-                                if (!password.isEmpty() && matcherPassword.find()){
-                                    if (password.equals(conf_password)){
-                                        String pwHash = BCrypt.hashpw(password, BCrypt.gensalt());
-                                        Restaurant newRestorer = new Restaurant(name,image_url, email, address, pwHash);
-                                        restorerRepository.save(newRestorer);
-                                        System.out.print("compte crée");
-
-                                    }
-                                    else{
-                                        System.out.print("password différent");
-                                        System.out.print(password);
-                                        System.out.print(conf_password);
-                                    }
-                                }
-                                else{
-                                    System.out.print("password non valide");
-                                    System.out.print("password" + password);
-                                    System.out.print("confpassword" + confkaka);
-                                }
-                            } else{
-                                System.out.print("email non valide");
-                            }
-                        } else{
-                            System.out.print("firstname non valide");
-                        }
+                        if (!email.isEmpty() && matcherEmail.find()){
+                        	if (!image_url.isEmpty()){
+	                            if (!password.isEmpty() && matcherPassword.find()){
+	                                if (password.equals(conf_password)){
+	                                    String pwHash = BCrypt.hashpw(password, BCrypt.gensalt());
+	                                    Restaurant newRestorer = new Restaurant(name, email, pwHash, address,image_url);
+	                                    restorerRepository.save(newRestorer);
+	                                    System.out.print("compte crée");
+	
+	                                }
+	                                else{
+	                                    System.out.print("password différent");
+	                                    System.out.print(password);
+	                                    System.out.print(conf_password);
+	                                }
+	                            }
+	                            else{
+	                                System.out.print("password non valide");
+	                                System.out.print("password" + password);
+	                                System.out.print("conf_password" + conf_password);
+	                            }
+	                        } else{
+	                            System.out.print("email non valide");
+	                        }
+                        }else{
+                                 System.out.print("Image non valide");
+                             }
                     } else{
-                        System.out.print("lastname non valide");
+                        System.out.print("name non valide");
                     }
-
                 } else{
                     System.out.print("city non valide");
                 }
             } else{
                 System.out.print("zipcode non valide");
             }
-        }
-        else {
+    	}else{
             System.out.print("street non valide");
             model.addAttribute("errorStreet", errorStreet);
         }
-            return "redirect:/register";
+            return "redirect:/register_restorer";
         }
 
     
