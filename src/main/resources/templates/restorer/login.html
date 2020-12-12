@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+<div th:replace="~{/layout/head :: head}"></div>
+    <body>
+    <div th:replace="~{/layout/header :: header}"></div>
+        <div class="login-dark" style="background: #171a25;">
+            <form method="post" style="background: #2e3240;height: 522px;width: 500px;">
+                <h1 style="text-align: center;font-family: Abel, sans-serif;">Connexion</h1>
+                <div class="illustration">
+                    <i class="icon ion-ios-locked-outline" style="color: #f55959;"></i>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="email" name="email" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="password" name="password" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-primary btn-block" type="submit" style="background: #f55959;">Se connecter</button>
+                </div>
+                <a class="forgot" href="#">Mot de passe oublié ?</a>
+                <a class="forgot" href="#">Pas encore inscrit ?</a>
+            </form>
+        </div>
+        <div th:replace="~{/layout/footer :: footer}"></div>
+        <div th:include="~{/layout/scripts :: scripts}"></div>
+    </body>
+</html>

@@ -10,8 +10,18 @@ import javax.validation.constraints.NotNull;
 @Data
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
 public class Restaurant {
+	
+    public Restaurant() {
+    }
+
+    public Restaurant(String name, String email, String password,  Address address,  String image_url) {
+        this.address = address;
+        this.name = name;
+        this.email = email;
+        this.image_url = image_url;
+        this.password = password;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
