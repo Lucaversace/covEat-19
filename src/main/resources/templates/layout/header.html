@@ -2,14 +2,17 @@
         xmlns:th="http://www.thymeleaf.org" class="d-flex justify-content-around align-items-center"
         style="width: 100%;color: rgb(46,50,64);height: 150px;background: #2e3240;border-style: none;">
     <ul class="nav  d-flex justify-content-around" style="width: 40%;">
-        <li th:if="!${session.user}" class="nav-item">
-            <a class="nav-link active" href="/register" style="background: rgba(255,255,255,0);color: rgb(245,89,89);">Inscription<br/></a>
+        <li th:if="!${session.restaurant}" class="nav-item">
+            <a class="nav-link" href="/" style="background: rgba(255,255,255,0);color: rgb(245,89,89);">Accueil<br/></a>
         </li>
-        <li th:if="!${session.user}" class="nav-item">
+        <li th:if="!${session.user} and !${session.restaurant}" class="nav-item">
+            <a class="nav-link" href="/register" style="background: rgba(255,255,255,0);color: rgb(245,89,89);">Inscription<br/></a>
+        </li>
+        <li th:if="!${session.user} and !${session.restaurant}" class="nav-item">
             <a class="nav-link" href="/login" style="color: rgb(245,89,89);">Connexion<br/></a>
         </li>
         <li th:if="${session.user}" class="nav-item">
-            <a class="nav-link" href="#" style="color: rgb(245,89,89);">Panier<br/></a>
+            <a class="nav-link" href="/cart" style="color: rgb(245,89,89);">Panier<br/></a>
         </li>
         <li th:if="${session.user}" class="nav-item dropdown show" style="background: #2e3240;">
             <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="dropdown-toggle nav-link" href="#" style="background: rgb(46,50,64);color: white;">Compte</a>
@@ -18,6 +21,12 @@
                 <a class="dropdown-item" href="#" >Mes informations</a>
                 <a class="dropdown-item" href="/logout">Déconnexion</a>
             </div>
+        </li>
+        <li th:if="${session.restaurant}" class="nav-item">
+            <a class="nav-link" href="/restorer" style="color: rgb(245,89,89);">Dashboard<br/></a>
+        </li>
+        <li th:if="${session.restaurant}" class="nav-item">
+            <a class="nav-link" href="/logout" style="color: rgb(245,89,89);">Déconnexion<br/></a>
         </li>
     </ul>
     <div class="d-flex align-self-center flex-wrap">

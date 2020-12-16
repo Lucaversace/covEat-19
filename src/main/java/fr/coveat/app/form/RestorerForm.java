@@ -9,7 +9,7 @@ public class RestorerForm {
     private String image_url;
     private String name;
     private String password;
-    private String conf_password;
+    private String confPassword;
     private String street;
     private String city;
     private String zipCode;

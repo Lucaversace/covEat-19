@@ -62,9 +62,8 @@ public class AuthController {
 
         User user = userRepository.findByEmail(email);
         String hashPass = user.getPassword();
-        Boolean verif = BCrypt.checkpw(password, hashPass);
 
-        if (verif){
+        if (BCrypt.checkpw(password, hashPass)){
             HttpSession session = request.getSession();
             session.setAttribute("user", user );
             Object user_session = session.getAttribute("user");
@@ -185,12 +184,33 @@ public class AuthController {
 
 
     @RequestMapping(value = {"login_restorer"}, method = RequestMethod.GET )
-    public String showLoginRestorer() {
+    public String showLoginRestorer(Model model) {
 
-        //model.addAttribute("message",message);
+        LoginFormUser loginForm = new LoginFormUser();
+        model.addAttribute("loginForm", loginForm);
+
         return "restorer/login_restorer";
     }
 
+    @RequestMapping(value = {"login_restorer"}, method = RequestMethod.POST )
+    public String loginRestorer(Model model, HttpServletRequest request, @ModelAttribute("loginForm") LoginFormUser loginForm) {
+
+        String email = loginForm.getEmail();
+        String password = loginForm.getPassword();
+
+        Restaurant restaurant = restorerRepository.findByEmail(email);
+        String hashPass = restaurant.getPassword();
+
+        if (BCrypt.checkpw(password, hashPass)){
+            HttpSession session = request.getSession();
+            session.setAttribute("restaurant", restaurant );
+            Object restaurant_session = session.getAttribute("restaurant");
+
+            System.out.println(restaurant_session);
+            return "redirect:/restorer";
+        }
+        return "redirect:/login_restorer";
+    }
 
     @RequestMapping(value = {"register_restorer"}, method = RequestMethod.GET )
     public String showRegisterRestorer(Model model) {
@@ -200,7 +220,7 @@ public class AuthController {
         return "restorer/register_restorer";
     }
 
-    @RequestMapping(value = { "/register_restorer" }, method = RequestMethod.POST)
+    @RequestMapping(value = { "register_restorer" }, method = RequestMethod.POST)
     public String saveRestorer(Model model,
                 @ModelAttribute("restorerForm") RestorerForm restorerForm) {
 
@@ -212,7 +232,7 @@ public class AuthController {
         String email = restorerForm.getEmail();
         String image_url = restorerForm.getImage_url();
         String password = restorerForm.getPassword();
-        String conf_password = restorerForm.getConf_password();
+        String conf_password = restorerForm.getConfPassword();
 
         matcherStreet = patternStreet.matcher(street);
         matcherZipCode = patternZipCode.matcher(zipCode);
