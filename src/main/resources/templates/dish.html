@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:replace="~{/layout/head :: head}"></div>
+<div th:replace="~{/layout/header :: header}"></div>
+
+<body style="color: #2b3245;background: #171a23;">
+<main class="container" style="margin-top: 152px;">
+    <div style="background: rgba(255,255,255,0.12);border-radius: 20px;padding: 30px;margin: 140px 70px 30px">
+        <h1 style="color: rgb(255,255,255);margin-bottom: 28px;" th:utext="${dish.name}" class="text-capitalize"></h1>
+        <div class="d-flex flex-wrap">
+            <img class="img-fluid figure-img col-12 col-lg-8" th:src="*{'data:image/jpg;base64,'+{dish.imageUrl}}" style="border-radius: 0px;">
+            <div class="col-12 col-lg-4">
+                <h5 class="text-white">Prix : <span th:utext="${dish.price}"></span> €</h5>
+                <a class="btn btn-danger col-12" th:href="@{/cart/add/{id}(id=${dish.id})}">Ajouter au panier</a>
+            </div>
+        </div>
+        <p class="text-white mt-3" th:text="${dish.description}" style="font-size:18px"></p>
+    </div>
+</main>
+<div th:replace="~{/layout/footer :: footer}"></div>
+<div th:include="~{/layout/scripts :: scripts}"></div>
+</body>
+
+</html>

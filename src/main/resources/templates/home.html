@@ -10,10 +10,11 @@
         <h1 style="color: rgb(255,255,255);padding-left: 29px;margin-top: 13px;margin-bottom: 28px;">Produits</h1>
         <div class="row w-100">
             <div class="col d-flex justify-content-xl-center flex-wrap">
-                <figure th:each="dish:${dishes}" class="figure" style="margin-right: 0px;margin-left: 33px;margin-top: 19px;">
+                <figure th:each="dish:${dishes}" class="figure" style="background: rgba(255,255,255,0.12);border-radius: 10px;margin:10px 15px;padding:5px">
                     <img class="img-fluid figure-img" th:src="*{'data:image/jpg;base64,'+{dish.imageUrl}}" style="border-radius: 0px;width: 300px;">
-                    <figcaption th:utext="${dish.name}" class="figure-caption" style="font-size: 26px;color: rgb(255,255,255);"></figcaption>
+                    <figcaption th:utext="${dish.name}" class="figure-caption text-capitalize" style="font-size: 26px;color: rgb(255,255,255);"></figcaption>
                     <figcaption class="figure-caption" style="font-size: 17px;color: rgb(255,255,255);">Prix: <span th:utext="${dish.price}"></span></figcaption>
+                    <a class="btn btn-danger col-12" th:href="@{/dish/{id}(id=${dish.id})}">Voir Plus</a>
                 </figure>
             </div>
         </div>
