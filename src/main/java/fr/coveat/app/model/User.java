@@ -9,22 +9,12 @@ import javax.validation.constraints.NotNull;
 @Data
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
 public class User {
-
-    public User() {
-    }
-
-    public User(String lastname, String firstname, String email, String password,  Address address) {
-        this.address = address;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.email = email;
-        this.password = password;
-    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @OneToOne
     @JoinColumn(nullable = false)

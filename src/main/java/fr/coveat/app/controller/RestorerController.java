@@ -44,7 +44,7 @@ public class RestorerController {
 
     	// TODO : A MODIFIER APRES LES SESSIONS
             Restaurant restaurant = new Restaurant();
-            restaurant.setId(1);
+            restaurant.setId(1L);
 
             if(!name.isEmpty() && !price.isNaN() && !description.isEmpty() && !imageUrl.isEmpty()){
                 String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));

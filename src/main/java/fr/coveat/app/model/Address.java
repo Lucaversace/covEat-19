@@ -11,16 +11,9 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 public class Address {
 
-
-    public Address(String zipCode, String city, String street) {
-        this.zipCode = zipCode;
-        this.city = city;
-        this.street = street;
-    }
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false)
     @NotNull

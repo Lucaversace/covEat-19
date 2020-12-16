@@ -108,7 +108,7 @@ public class AuthController {
         String firstname = userForm.getFirstname();
         String email = userForm.getEmail();
         String password = userForm.getPassword();
-        String confpassword = userForm.getConfPassword();
+        String confPassword = userForm.getConfPassword();
 
         matcherStreet = patternStreet.matcher(street);
         matcherZipCode = patternZipCode.matcher(zipCode);
@@ -118,29 +118,37 @@ public class AuthController {
         if (!street.isEmpty() && matcherStreet.find()){
             if (!zipCode.isEmpty() && matcherZipCode.find()){
                 if (!city.isEmpty() && city.length() > 1){
-                    Address address = new Address(zipCode, street, city);
-                    addressRepository.save(address);
+                    Address address = new Address();
+                    address.setStreet(street);
+                    address.setZipCode(zipCode);
+                    address.setCity(city);
                     if (!lastname.isEmpty() && lastname.length() > 1){
                         if (!firstname.isEmpty() && firstname.length() > 1){
                             if (!email.isEmpty() && matcherEmail.find()){
                                 if (!password.isEmpty() && matcherPassword.find()){
-                                    if (password.equals(confpassword)){
+                                    if (password.equals(confPassword)){
                                         String pwHash = BCrypt.hashpw(password, BCrypt.gensalt());
-                                        User newUser = new User(lastname, firstname, email, pwHash, address);
+                                        User newUser = new User();
+                                        newUser.setLastname(lastname);
+                                        newUser.setFirstname(firstname);
+                                        newUser.setEmail(email);
+                                        newUser.setPassword(pwHash);
+                                        newUser.setAddress(address);
+                                        addressRepository.save(address);
                                         userRepository.save(newUser);
-                                        System.out.print("compte crée");
-
+                                        System.out.print("compte créé");
+                                        return "redirect:/login";
                                     }
                                     else{
                                         System.out.print("password différent");
                                         System.out.print(password);
-                                        System.out.print(confpassword);
+                                        System.out.print(confPassword);
                                     }
                                 }
                                 else{
                                     System.out.print("password non valide");
                                     System.out.print("password" + password);
-                                    System.out.print("confpassword" + confpassword);
+                                    System.out.print("confpassword" + confPassword);
                                 }
                             } else{
                                 System.out.print("email non valide");
@@ -163,7 +171,7 @@ public class AuthController {
             System.out.print("street non valide");
             model.addAttribute("errorStreet", errorStreet);
         }
-        return "redirect:/login";
+        return "redirect:/register";
     }
 
 
@@ -214,18 +222,26 @@ public class AuthController {
         if (!street.isEmpty() && matcherStreet.find()){
             if (!zipCode.isEmpty() && matcherZipCode.find()){
                 if (!city.isEmpty() && city.length() > 1){
-                    Address address = new Address(zipCode, street, city);
-                    addressRepository.save(address);
+                    Address address = new Address();
+                    address.setStreet(street);
+                    address.setZipCode(zipCode);
+                    address.setCity(city);
                     if (!name.isEmpty() && name.length() > 1){
                         if (!email.isEmpty() && matcherEmail.find()){
                         	if (!image_url.isEmpty()){
 	                            if (!password.isEmpty() && matcherPassword.find()){
 	                                if (password.equals(conf_password)){
 	                                    String pwHash = BCrypt.hashpw(password, BCrypt.gensalt());
-	                                    Restaurant newRestorer = new Restaurant(name, email, pwHash, address,image_url);
+	                                    Restaurant newRestorer = new Restaurant();
+                                        newRestorer.setName(name);
+                                        newRestorer.setEmail(email);
+                                        newRestorer.setPassword(pwHash);
+                                        newRestorer.setAddress(address);
+                                        newRestorer.setImage_url(image_url);
+                                        addressRepository.save(address);
 	                                    restorerRepository.save(newRestorer);
 	                                    System.out.print("compte crée");
-
+                                        return "redirect:/login_restorer";
 	                                }
 	                                else{
 	                                    System.out.print("password différent");
@@ -257,6 +273,6 @@ public class AuthController {
             System.out.print("street non valide");
             model.addAttribute("errorStreet", errorStreet);
         }
-        return "redirect:/login_restorer";
+        return "redirect:/register_restorer";
     }
 }
