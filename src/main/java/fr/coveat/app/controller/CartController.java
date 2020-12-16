@@ -26,29 +26,17 @@ public class CartController {
     @RequestMapping(value={"","/"}, method = RequestMethod.GET)
     public String home(Model model, HttpServletRequest request) {
         HttpSession session = request.getSession();
-        System.out.println(session.getAttribute("cart"));
         this.cart = ((ArrayList<Long>) session.getAttribute("cart"));
+        System.out.println(this.cart);
+
         if(this.cart == null){
             this.cart = new ArrayList<Long>();
-//            cart.add(1L);
-//            CartLineInfo cartline = new CartLineInfo(dishRepository.getOne(new Long(1)), 1);
-//            System.out.println(cartline.getQuantity());
-//            cart.add(new CartLineInfo(new Long(1), 1));
-            System.out.println(this.cart);
             session.setAttribute("cart", cart);
         }
+        model.addAttribute("cartEmpty",true);
         if(this.cart != null && !this.cart.isEmpty()){
-//            List<Dish> cartContent = new ArrayList<Dish>();
             model.addAttribute("cartEmpty",false);
-//            this.cart = new ArrayList<Long>(){{
-//                add(1L);
-//                add(2L);
-//                add(3L);
-//            }};
-//            model.addAttribute("cart", dishRepository.findAllById(this.cart));
-            model.addAttribute("cart", dishRepository.findAll());
-        }else{
-            model.addAttribute("cartEmpty",true);
+            model.addAttribute("cart", dishRepository.findAllById(this.cart));
         }
         return "/cart/home_cart";
     }
@@ -58,7 +46,6 @@ public class CartController {
         HttpSession session = request.getSession();
         if (dishRepository.existsById(id) && session.getAttribute("cart") != null) {
             this.cart = (ArrayList<Long>) session.getAttribute("cart");
-            Dish dish = this.dishRepository.getOne(id);
             if (this.cart != null){
 //                boolean flag_added_quantity = false;
 //                for (CartLineInfo cartLine: this.cart) {
@@ -72,7 +59,18 @@ public class CartController {
 //                }
                 this.cart.add(id);
                 session.setAttribute("cart", this.cart);
-                System.out.println(session.getAttribute("cart"));
+                List<Integer> quantities = new ArrayList<Integer>();
+                List<Long> id_passed = new ArrayList<Long>();
+                for (Long id2: this.cart){
+                    if(!id_passed.contains(id2)){
+                        id_passed.add(id2);
+                        quantities.add(Collections.frequency(this.cart, id2));
+//                        System.out.println("id:"+id2 + ":Q" + Collections.frequency(this.cart, id2));
+                    }
+
+                }
+                System.out.println("Quantity:"+quantities);
+//                System.out.println(session.getAttribute("cart"));
             }
         }
         return "redirect:/cart";
