@@ -140,7 +140,7 @@ public class AuthController {
 
    
       
-    @RequestMapping(value = {"login"}, method = RequestMethod.GET )
+    @RequestMapping(value = {"login_restorer"}, method = RequestMethod.GET )
     public String showLoginRestorer() {
 
         //model.addAttribute("message",message);
