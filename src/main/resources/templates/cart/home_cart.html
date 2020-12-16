@@ -5,6 +5,8 @@
     <title>Title</title>
 </head>
 <body>
-
+    <ul>
+        <li th:each="dish: ${dishes}" th:utext="${dish.name}"></li>
+    </ul>
 </body>
 </html>
