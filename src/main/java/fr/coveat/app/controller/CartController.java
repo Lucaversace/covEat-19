@@ -43,7 +43,6 @@ public class CartController {
                 if(!id_passed.contains(id2)){
                     id_passed.add(id2);
                     quantities.add(Collections.frequency(this.cart, id2));
-//                        System.out.println("id:"+id2 + ":Q" + Collections.frequency(this.cart, id2));
                 }
 
             }
@@ -76,7 +75,6 @@ public class CartController {
         HttpSession session = request.getSession();
         if (dishRepository.existsById(id) && session.getAttribute("cart") != null) {
             this.cart = (ArrayList<Long>) session.getAttribute("cart");
-//            List<Integer> quantities = (List<Integer>) session.getAttribute("quantities");
             if (this.cart != null && this.cart.contains(id)){
                 this.cart.remove(id);
             }
@@ -84,71 +82,18 @@ public class CartController {
         }
         return "redirect:/cart";
     }
-
-//    @PostMapping("/addDish")
-//    public String add(@RequestParam("dish") Dish dish, HttpServletRequest request) {
-//
-//        List<Dish> dishes = (List<Dish>) request.getSession().getAttribute("Dishes");
-//        if(dishes == null){
-//            dishes = new ArrayList<>();
-//            request.getSession().setAttribute("dishes", dishes);
-//        }
-//
-//        dishes.add(dish);
-//        request.getSession().setAttribute("dishes", dishes);
-//        return "redirect:/cart";
-//    }
-//
-//    @PostMapping
-//    public String updateAll(@Validated CartForm cartForm, BindingResult result, Model model) {
-//        if (result.hasErrors()) {
-//            model.addAttribute("cart", cart);
-//            model.addAttribute("cartForm", cartForm);
-//            return "cart/list";
-//        }
-//        for (var entry : cartForm.getItems().entrySet()) {
-//            var itemId = entry.getKey();
-//            var cartItem = cart.getCartItem(itemId);
-//            if (cartItem == null) {
-//                continue;
-//            }
-//            var cartItemForm = entry.getValue();
-//            if (cartItemForm.getQuantity() < 1) {
-//                cart.removeItemById(itemId);
-//            } else {
-//                cart.setQuantityByItemId(itemId, cartItemForm.getQuantity());
-//            }
-//        }
-//        return "redirect:/cart";
-//    }
-//
-//    @PostMapping("/item/{itemId}")
-//    public String addItem(@PathVariable String itemId, Model model) {
-//        if (cart.containsItemId(itemId)) {
-//            cart.incrementQuantityByItemId(itemId);
-//        } else {
-//            var isInStock = itemService.isItemInStock(itemId);
-//            var item = itemService.getItem(itemId);
-//            cart.addItem(item, isInStock);
-//        }
-//        model.addAttribute(cart);
-//        return "redirect:/cart";
-//    }
-//
-//    @DeleteMapping("/item/{itemId}")
-//    public String removeItem(@PathVariable String itemId) {
-//        cart.removeItemById(itemId);
-//        return "redirect:/cart";
-//    }
-//
-//    @GetMapping("/checkout")
-//    public String checkout(Model model) {
-//        model.addAttribute("cart", cart);
-//        return "cart/checkout";
-//    }
-//
-//    @PostMapping("/checkout")
-//    public String checkout() {
-//        return "redirect:/order";
-//    }
+    @RequestMapping(value={"/delete/{id}"}, method = RequestMethod.GET)
+    public String deleteDish(@PathVariable("id") Long id, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        if (dishRepository.existsById(id) && session.getAttribute("cart") != null) {
+            this.cart = (ArrayList<Long>) session.getAttribute("cart");
+            if (this.cart != null && this.cart.contains(id)){
+                while(this.cart.contains(id)){
+                    this.cart.remove(id);
+                }
+            }
+            session.setAttribute("cart", this.cart);
+        }
+        return "redirect:/cart";
+    }
 }
