@@ -31,10 +31,25 @@ public class CartController {
 
         if(this.cart == null){
             this.cart = new ArrayList<Long>();
-            session.setAttribute("cart", cart);
+            session.setAttribute("cart", this.cart);
         }
         model.addAttribute("cartEmpty",true);
+
         if(this.cart != null && !this.cart.isEmpty()){
+            Collections.sort(this.cart);
+            List<Integer> quantities = new ArrayList<Integer>();
+            List<Long> id_passed = new ArrayList<Long>();
+            for (Long id2: this.cart){
+                if(!id_passed.contains(id2)){
+                    id_passed.add(id2);
+                    quantities.add(Collections.frequency(this.cart, id2));
+//                        System.out.println("id:"+id2 + ":Q" + Collections.frequency(this.cart, id2));
+                }
+
+            }
+            System.out.println("Quantity:"+quantities);
+            session.setAttribute("quantities", quantities);
+            System.out.println(dishRepository.findAllById(this.cart));
             model.addAttribute("cartEmpty",false);
             model.addAttribute("cart", dishRepository.findAllById(this.cart));
             model.addAttribute("quantities", session.getAttribute("quantities"));
@@ -48,32 +63,24 @@ public class CartController {
         if (dishRepository.existsById(id) && session.getAttribute("cart") != null) {
             this.cart = (ArrayList<Long>) session.getAttribute("cart");
             if (this.cart != null){
-//                boolean flag_added_quantity = false;
-//                for (CartLineInfo cartLine: this.cart) {
-//                    if(dish.getId().equals(cartLine.getDishId())){
-//                        cartLine.setQuantity(cartLine.getQuantity()+1);
-//                        flag_added_quantity = true;
-//                    }
-//                }
-//                if(!flag_added_quantity){
-//                    this.cart.add(new CartLineInfo(1L, 1));
-//                }
                 this.cart.add(id);
                 session.setAttribute("cart", this.cart);
-                List<Integer> quantities = new ArrayList<Integer>();
-                List<Long> id_passed = new ArrayList<Long>();
-                for (Long id2: this.cart){
-                    if(!id_passed.contains(id2)){
-                        id_passed.add(id2);
-                        quantities.add(Collections.frequency(this.cart, id2));
-//                        System.out.println("id:"+id2 + ":Q" + Collections.frequency(this.cart, id2));
-                    }
 
-                }
-                System.out.println("Quantity:"+quantities);
-                session.setAttribute("quantities", quantities);
-//                System.out.println(session.getAttribute("cart"));
             }
+        }
+        return "redirect:/cart";
+    }
+
+    @RequestMapping(value={"/remove/{id}"}, method = RequestMethod.GET)
+    public String removeDish(@PathVariable("id") Long id, HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        if (dishRepository.existsById(id) && session.getAttribute("cart") != null) {
+            this.cart = (ArrayList<Long>) session.getAttribute("cart");
+//            List<Integer> quantities = (List<Integer>) session.getAttribute("quantities");
+            if (this.cart != null && this.cart.contains(id)){
+                this.cart.remove(id);
+            }
+            session.setAttribute("cart", this.cart);
         }
         return "redirect:/cart";
     }
