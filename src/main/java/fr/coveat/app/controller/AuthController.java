@@ -127,37 +127,37 @@ public class AuthController {
             System.out.print("street non valide");
             model.addAttribute("errorStreet", errorStreet);
         }
-            return "redirect:/register";
-        }
+        return "redirect:/register";
+    }
 
 
     	
-///////////////////////////////////////////////////////////////////////////////   
-///////////////////////////////////////////////////////////////////////////////    
-/////////////////////////////RESTORER REGISTER///////////////////////////////////    
-///////////////////////////////////////////////////////////////////////////////    
-///////////////////////////////////////////////////////////////////////////////   
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+/////////////////////////////RESTORER REGISTER/////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 
    
       
-//    @RequestMapping(value = {"login"}, method = RequestMethod.GET )
-//    public String login() {
-//
-//        //model.addAttribute("message",message);
-//        return "login";
-//    }
+    @RequestMapping(value = {"login"}, method = RequestMethod.GET )
+    public String showLoginRestorer() {
+
+        //model.addAttribute("message",message);
+        return "restorer/login_restorer";
+    }
     
 
     @RequestMapping(value = {"register_restorer"}, method = RequestMethod.GET )
-    public String showRegister_Restorer(Model model) {
+    public String showRegisterRestorer(Model model) {
     	RestorerForm restorerForm = new RestorerForm();
     	model.addAttribute("restorerForm", restorerForm);
         model.addAttribute("errorZipCode", errorZipCode);
-        return "register_restorer";
+        return "restorer/register_restorer";
     }
 
     @RequestMapping(value = { "/register_restorer" }, method = RequestMethod.POST)
-    public String saveUser(Model model,
+    public String saveRestorer(Model model,
                 @ModelAttribute("restorerForm") RestorerForm restorerForm) {
 
         String street = restorerForm.getStreet();
@@ -206,8 +206,8 @@ public class AuthController {
 	                            System.out.print("email non valide");
 	                        }
                         }else{
-                                 System.out.print("Image non valide");
-                             }
+                             System.out.print("Image non valide");
+                         }
                     } else{
                         System.out.print("name non valide");
                     }
@@ -221,9 +221,6 @@ public class AuthController {
             System.out.print("street non valide");
             model.addAttribute("errorStreet", errorStreet);
         }
-            return "redirect:/register_restorer";
-        }
-
-    
-
+        return "redirect:/login_restorer";
+    }
 }
