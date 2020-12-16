@@ -4,7 +4,6 @@ import fr.coveat.app.form.DishForm;
 import fr.coveat.app.model.Dish;
 import fr.coveat.app.model.Restaurant;
 import fr.coveat.app.repository.DishRepository;
-import fr.coveat.app.service.FileUploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -14,8 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.Objects;
-import java.util.Random;
 
 @Controller
 public class RestorerController {
@@ -36,7 +35,7 @@ public class RestorerController {
     }
 
     @RequestMapping(value = {"/restorer/add_dish"}, method = RequestMethod.POST )
-    public String postCreateDish(@ModelAttribute("dish") Dish dish, @RequestParam(value = "photo", required = false) MultipartFile multipartFile) throws IOException {
+    public String postCreateDish(@ModelAttribute("dish") Dish dish, @RequestParam(value = "photo", required = false) MultipartFile multipartFile){
         if(dish.getName() != null && dish.getPrice() != null && dish.getDescription() != null && dish.getImageUrl() != null){
             String name = dish.getName();
             Double price = dish.getPrice();
@@ -48,11 +47,16 @@ public class RestorerController {
             restaurant.setId(1);
 
             if(!name.isEmpty() && !price.isNaN() && !description.isEmpty() && !imageUrl.isEmpty()){
-                String random = new Random().toString().replace("java.util.Random@","");
-                String fileName = restaurant.getId() + "-" + random + "-" + StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-                String uploadDir = "src/main/resources/static/img/dishes" ;
-                dish.setImageUrl(fileName);
-                FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+                String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+                if(fileName.contains(".."))
+                {
+                    System.out.println("not a a valid file");
+                }
+                try {
+                    dish.setImageUrl(Base64.getEncoder().encodeToString(multipartFile.getBytes()));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 dish.setRestaurant(restaurant);
                 dishRepository.save(dish);
@@ -72,7 +76,7 @@ public class RestorerController {
     }
 
     @RequestMapping(value = {"/restorer/{id}/edit_dish"}, method = RequestMethod.POST )
-    public String editDish(@PathVariable("id") Long id, @ModelAttribute("dishForm") DishForm dishForm, @RequestParam(value = "photo", required = false) MultipartFile multipartFile) throws IOException {
+    public String editDish(@PathVariable("id") Long id, @ModelAttribute("dishForm") DishForm dishForm, @RequestParam(value = "photo", required = false) MultipartFile multipartFile){
         if (dishRepository.existsById(id)) {
             Dish dish = dishRepository.getOne(id);
 
@@ -89,11 +93,16 @@ public class RestorerController {
                     dish.setDescription(description);
 
                     if(!dish.getImageUrl().equals(imageUrl)){
-                        String random = new Random().toString().replace("java.util.Random@","");
-                        String fileName = dish.getRestaurant().getId() + "-" + random + "-" + StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-                        String uploadDir = "src/main/resources/static/img/dishes" ;
-                        dish.setImageUrl(fileName);
-                        FileUploadUtil.saveFile(uploadDir, fileName, multipartFile);
+                        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+                        if(fileName.contains(".."))
+                        {
+                            System.out.println("not a a valid file");
+                        }
+                        try {
+                            dish.setImageUrl(Base64.getEncoder().encodeToString(multipartFile.getBytes()));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
 
                     dishRepository.save(dish);
