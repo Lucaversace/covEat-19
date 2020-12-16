@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:replace="~{/layout/head :: head}"></div>
+<div th:replace="~{/layout/header :: header}"></div>
+
+<body style="color: #2b3245;background: #171a23;">
+
+<main class="container">
+    <section class="p-5" style="background: rgba(255,255,255,0.12);border-radius: 20px;padding-bottom: 0px;margin: 140px 70px 30px">
+        <div class="d-flex flex-wrap justify-content-beetween">
+            <h2 class="col-12 col-lg-6 text-white">Mon panier</h2>
+        </div>
+        <hr class="mx-0 col-4 border-bottom border-white">
+        <div style="margin-bottom: 50px;" th:if="!${cartEmpty}" th:each="dish : ${cart}" th:remove="tag">
+            <div class="row d-flex align-item-center" style="padding:0 0 15px 15px;">
+                <h5 class="text-center text-white" th:text="${dish.name}"></h5>
+<!--                <h6 class="text-center text-white" th:text="${cartline.quantity}"></h6>-->
+                <a class="btn btn-outline-secondary" href="@{/cart}" style="background:none;border:none;"><ion-icon name="add" size="large"></ion-icon></i></a>
+                <a class="btn btn-outline-secondary" href="@{/cart}" style="background:none;border:none;"><ion-icon name="remove" size="large"></ion-icon></i></a>
+                <a class="btn btn-outline-danger" th:href="@{/cart}" style="background:none;border:none;"><ion-icon name="trash" style="font-size:20px"></ion-icon></a>
+            </div>
+        </div>
+        <div th:if="${cartEmpty}" class="text-white" style="margin-bottom: 50px;">
+            <p>Votre panier est vide</p>
+        </div>
+    </section>
+</main>
+<div th:replace="~{/layout/footer :: footer}"></div>
+<div th:include="~{/layout/scripts :: scripts}"></div>
+</body>
+
+</html>
