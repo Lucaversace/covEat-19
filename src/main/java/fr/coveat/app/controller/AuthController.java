@@ -101,7 +101,7 @@ public class AuthController {
         String firstname = userForm.getFirstname();
         String email = userForm.getEmail();
         String password = userForm.getPassword();
-        String confkaka = userForm.getKaka();
+        String confpassword = userForm.getConfPassword();
 
         matcherStreet = patternStreet.matcher(street);
         matcherZipCode = patternZipCode.matcher(zipCode);
@@ -117,7 +117,7 @@ public class AuthController {
                         if (!firstname.isEmpty() && firstname.length() > 1){
                             if (!email.isEmpty() && matcherEmail.find()){
                                 if (!password.isEmpty() && matcherPassword.find()){
-                                    if (password.equals(confkaka)){
+                                    if (password.equals(confpassword)){
                                         String pwHash = BCrypt.hashpw(password, BCrypt.gensalt());
                                         User newUser = new User(lastname, firstname, email, pwHash, address);
                                         userRepository.save(newUser);
@@ -127,13 +127,13 @@ public class AuthController {
                                     else{
                                         System.out.print("password différent");
                                         System.out.print(password);
-                                        System.out.print(confkaka);
+                                        System.out.print(confpassword);
                                     }
                                 }
                                 else{
                                     System.out.print("password non valide");
                                     System.out.print("password" + password);
-                                    System.out.print("confpassword" + confkaka);
+                                    System.out.print("confpassword" + confpassword);
                                 }
                             } else{
                                 System.out.print("email non valide");

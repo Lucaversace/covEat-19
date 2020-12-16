@@ -12,6 +12,6 @@ public class UserForm {
     private String lastname;
     private String email;
     private String password;
-    private String kaka;
+    private String confPassword;
 
-    }
+}
