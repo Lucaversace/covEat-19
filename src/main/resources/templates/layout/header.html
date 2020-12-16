@@ -1,23 +1,31 @@
 <header th:fragment="head" xmlns="http://www.w3.org/1999/xhtml"
         xmlns:th="http://www.thymeleaf.org" class="d-flex justify-content-around align-items-center"
         style="width: 100%;color: rgb(46,50,64);height: 150px;background: #2e3240;border-style: none;">
-    <input placeholder="McDolnalds, tacos, kebab..." type="search" style="width:20%;border:none;border-radius:7px;" />
+    <div class="d-flex align-self-center flex-wrap" style="transform: scaleX(-1)">
+        <div style="width: 104px;">
+            <h1 style="color: rgb(255,255,255);">Cov Eat</h1>
+        </div>
+        <div style="margin-top: 25px;">
+            <h1 style="color: rgb(245,89,89);">19</h1>
+        </div>
+    </div>
     <ul class="nav  d-flex justify-content-around" style="width: 40%;">
-        <li class="nav-item">
-            <a class="nav-link active" href="#" style="background: rgba(255,255,255,0);color: rgb(245,89,89);">Inscription<br/></a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#" style="color: rgb(245,89,89);">Connexion<br/></a>
-        </li>
-        <li class="nav-item">
+            <li th:if="!${session.user}" class="nav-item">
+                <a class="nav-link active" href="/register" style="background: rgba(255,255,255,0);color: rgb(245,89,89);">Inscription<br/></a>
+            </li>
+            <li th:if="!${session.user}" class="nav-item">
+                <a class="nav-link" href="/login" style="color: rgb(245,89,89);">Connexion<br/></a>
+            </li>
+
+        <li th:if="${session.user}" class="nav-item">
             <a class="nav-link" href="#" style="color: rgb(245,89,89);">Panier<br/></a>
         </li>
-        <li class="nav-item dropdown show" style="background: #2e3240;">
+        <li th:if="${session.user}" class="nav-item dropdown show" style="background: #2e3240;">
             <a data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" class="dropdown-toggle nav-link" href="#" style="background: rgb(46,50,64);color: white;">Compte</a>
             <div class="dropdown-menu" style="background: rgb(245,89,89);">
                 <a class="dropdown-item" href="#" >Mes commandes</a>
                 <a class="dropdown-item" href="#" >Mes informations</a>
-                <a class="dropdown-item" href="#">Déconnexion</a>
+                <a class="dropdown-item" href="/logout">Déconnexion</a>
             </div>
         </li>
     </ul>

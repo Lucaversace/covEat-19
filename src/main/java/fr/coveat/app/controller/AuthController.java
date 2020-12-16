@@ -1,5 +1,6 @@
 package fr.coveat.app.controller;
 
+import fr.coveat.app.form.LoginFormUser;
 import fr.coveat.app.form.UserForm;
 import fr.coveat.app.model.Address;
 import fr.coveat.app.model.User;
@@ -12,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -34,11 +38,43 @@ public class AuthController {
         this.addressRepository = addressRepository;
     }
     @RequestMapping(value = {"login"}, method = RequestMethod.GET )
-    public String login() {
+    public String showLogin(Model model) {
 
-        //model.addAttribute("message",message);
+        LoginFormUser loginFormUser = new LoginFormUser();
+        model.addAttribute("loginFormUser", loginFormUser);
+
         return "login";
     }
+
+    @RequestMapping(value = {"login"}, method = RequestMethod.POST )
+    public String login(Model model, HttpServletRequest request,
+                        @ModelAttribute("loginFormUser") LoginFormUser loginFormUser) {
+
+        String email = loginFormUser.getEmail();
+        String password = loginFormUser.getPassword();
+
+        User user = userRepository.findByEmail(email);
+        String hashPass = user.getPassword();
+        Boolean verif = BCrypt.checkpw(password, hashPass);
+
+        if (verif){
+            HttpSession session = request.getSession();
+            session.setAttribute("user", user );
+            Object user_session = session.getAttribute("user");
+
+            System.out.println(user_session);
+        }
+        return "login";
+    }
+
+    @RequestMapping(value = {"logout"}, method = RequestMethod.GET )
+    public String logout(HttpServletRequest request) {
+
+        request.getSession().invalidate();
+        System.out.println("déconnecté");
+        return "redirect:/login";
+    }
+
     @Value("${error.zipcode}")
     private String errorZipCode;
 
@@ -53,7 +89,7 @@ public class AuthController {
         return "register";
     }
 
-    @RequestMapping(value = { "/register" }, method = RequestMethod.POST)
+    @RequestMapping(value = { "register" }, method = RequestMethod.POST)
     public String saveUser(Model model,
                 @ModelAttribute("userForm") UserForm userForm) {
 
@@ -125,16 +161,6 @@ public class AuthController {
                 //&& firstname != null && firstname.length() > 0) {
 
 
-            return "redirect:/register";
+            return "redirect:/login";
         }
-
-    @RequestMapping(value = {"restorer/register"}, method = RequestMethod.GET )
-    public String showRestorerRegister(Model model) {
-        UserForm userForm = new UserForm();
-        model.addAttribute("userForm", userForm);
-        model.addAttribute("errorZipCode", errorZipCode);
-        return "restorer/register";
-    }
-
-
 }
