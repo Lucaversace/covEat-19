@@ -1,7 +1,7 @@
 package fr.coveat.app.model;
 
-import lombok.*;
 
+import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -9,11 +9,12 @@ import javax.validation.constraints.NotNull;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+
 @Table(name = "command_details")
 public class CommandDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne

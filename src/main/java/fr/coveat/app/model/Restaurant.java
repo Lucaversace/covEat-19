@@ -10,11 +10,21 @@ import javax.validation.constraints.NotNull;
 @Data
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
 public class Restaurant {
+	
+    public Restaurant() {
+    }
+
+    public Restaurant(String name, String email, String password,  Address address,  String image_url) {
+        this.address = address;
+        this.name = name;
+        this.email = email;
+        this.image_url = image_url;
+        this.password = password;
+    }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @OneToOne
@@ -38,5 +48,6 @@ public class Restaurant {
 
     @Column(nullable = true)
     private String image_url;
+    
 
 }

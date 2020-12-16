@@ -35,4 +35,5 @@ public class Dish {
     @NotNull
     @Column(name = "image_url", nullable = false)
     private String imageUrl;
+
 }

@@ -7,21 +7,21 @@
 <body style="color: rgb(36,44,59);background: #171a25;">
 <div th:replace="~{/layout/header :: header}"></div>
     <div class="login-dark" style="color: rgb(30,37,50);">
-        <form th:action="@{/register}" th:object="${userForm}" method="POST" style="background: #2e3240;height: 599px;width: 800px;border-radius: 7px;">
+        <form th:action="@{/register_restorer}" th:object="${restorerForm}" method="POST" style="background: #2e3240;height: 599px;width: 800px;border-radius: 7px;">
             <h1 class="text-center">Inscription</h1>
             <div class="form-group d-flex row" style="margin-top: 41px;">
-                <input th:field="*{lastname}" class="form-control" type="text" name="lastname" placeholder="Nom" style="width: 300px;">
-                <input th:field="*{firstname}" class="form-control" type="text" name="firstname" placeholder="Prénom" style="width: 300px;margin-left: 120px;">
+                <input th:field="*{name}" class="form-control" type="text" name="name" placeholder="Name" style="width: 300px;">
+                <input th:field="*{image_url}" class="form-control" type="text" name="image_url" placeholder="image_url" style="width: 300px;">
             </div>
             <div class="form-group row">
                 <input th:field="*{email}" class="form-control" type="email" name="email" placeholder="Email">
             </div>
             <div class="form-group d-flex row" style="margin-top: 34px;">
                 <input th:field="*{password}" id="pass" class="form-control" type="password" name="password" placeholder="Password" style="margin-left: 0px;width: 300px;">
-                <input th:field="*{confPassword}" id="confpass" class="form-control" type="password" name="confPassword" placeholder="Confirm password" style="margin-left:120px;width:300px;">
+                <input th:field="*{confPassword}" class="form-control" id="confpass" type="password" name="conf_password" placeholder="Confirm password" style="margin-left: 120px;width: 300px;">
             </div>
             <div class="form-group d-flex flex-wrap row" style="margin-top: 38px;">
-                <input th:field="*{street}" class="form-control" type="text" name="street" placeholder="Adresse: 17 rue Raoul Serviant">
+                <input th:field="*{street}" class="form-control" type="text" name="street" placeholder="Adress : 17 rue Raoul Serviant">
             </div>
             <div class="row form-group ">
                 <input th:field="*{zipCode}" id="zipcode" class="form-control" type="text" name="zipCode" placeholder="Code postale" style="width: 300px;margin-top: 25px;">

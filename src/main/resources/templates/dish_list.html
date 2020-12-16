@@ -3,46 +3,35 @@
       xmlns:th="http://www.thymeleaf.org" lang="en">
 
 <div th:replace="~{/layout/head :: head}"></div>
-    <div th:replace="~{/layout/header :: header}"></div>
+<div th:replace="~{/layout/header :: header}"></div>
 
 <body style="color: #2b3245;background: #171a23;">
  
-    <main class="d-xl-flex justify-content-xl-center" style="margin-top: 139px;">
-        <section class="d-xl-flex getintouch" style="background: rgba(255,255,255,0.12);width: 1601px;border-radius: 10px;padding-bottom: 0px;margin-bottom: 30px;margin-top: 0px;margin-right: 70px;margin-left: 70px;">
-            <div class="container modern-form">
-                <div class="text-center">
-                    <h4 class="text-left" style="color: #ffffff;font-size: 45px;">Mes plats</h4>
-                    <hr style="border-color: rgb(255,255,255);margin-right: 792px;">
-                </div>
-                <div class="row" style="margin-bottom: 50px;">
-                    <div class="col d-flex justify-content-between align-items-center" style="padding-left: 15px;"><img th:src="@{bootstrap/img/burger.jpg}" style="width: 310px;padding: 10px;padding-left: -6px;border-radius: 22px;">
-                        <h1 style="color: rgb(255,255,255);font-size: 61px;">Plat n°1</h1>
-                        <h1 style="color: rgb(255,255,255);"></h1>
-                        <div class="d-flex"><a href="#">Modifier&nbsp;&nbsp;</a>
-                            <h1 style="color: rgb(255,255,255);font-size: 21px;">/</h1><a href="#">&nbsp; Supprimer</a></div>
+    <main class="container">
+        <section class="p-5" style="background: rgba(255,255,255,0.12);border-radius: 20px;padding-bottom: 0px;margin: 140px 70px 30px">
+                <div class="d-flex flex-wrap justify-content-beetween">
+                    <h2 class="col-12 col-lg-6 text-white">Mes plats</h2>
+                    <div class="col-12 col-lg-6 p-0 text-right">
+                        <a class="btn btn-outline-secondary" href="/restorer/add_dish" style="background:none;border:none;"><ion-icon name="add-circle-outline" size="large"></ion-icon></i></a>
                     </div>
                 </div>
-                <div class="row" style="margin-bottom: 50px;">
-                    <div class="col d-flex justify-content-between align-items-center" style="padding-left: 15px;"><img th:src="@{bootstrap/img/burger.jpg}" style="width: 310px;padding: 10px;padding-left: -6px;border-radius: 22px;">
-                        <h1 style="color: rgb(255,255,255);font-size: 61px;">Plat n°2</h1>
-                        <h1 style="color: rgb(255,255,255);"></h1>
-                        <div class="d-flex"><a href="#">Modifier&nbsp;&nbsp;</a>
-                            <h1 style="color: rgb(255,255,255);font-size: 21px;">/</h1><a href="#">&nbsp; Supprimer</a></div>
+                <hr class="mx-0 col-4 border-bottom border-white">
+                <div style="margin-bottom: 50px;" th:each="dish : ${dishes}" th:remove="tag">
+                    <div class="row d-flex align-item-center" style="padding:0 0 15px 15px;">
+                        <img class="col-12 col-lg-5 rounded" th:src="${dish.imageUrl}">
+                        <div class="col-12 col-lg-5 d-flex align-items-center justify-content-center">
+                            <h5 class="text-center text-white" th:text="${dish.name}"></h5>
+                        </div>
+                        <div class="col-12 col-lg-2 d-flex align-items-center justify-content-between">
+                            <a class="btn btn-outline-primary" href="/restorer/edit_dish" style="background:none;border:none;"><ion-icon name="create" style="font-size:20px"></ion-icon></a>
+                            <a class="btn btn-outline-danger" href="/restorer/delete_dish" style="background:none;border:none;"><ion-icon name="trash" style="font-size:20px"></ion-icon></a>
+                        </div>
                     </div>
                 </div>
-                <div class="row" style="margin-bottom: 50px;">
-                    <div class="col d-flex justify-content-between align-items-center" style="padding-left: 15px;"><img th:src="@{bootstrap/img/burger.jpg}" style="width: 310px;padding: 10px;padding-left: -6px;border-radius: 22px;">
-                        <h1 style="color: rgb(255,255,255);font-size: 61px;">Plat n°3</h1>
-                        <h1 style="color: rgb(255,255,255);"></h1>
-                        <div class="d-flex"><a href="#">Modifier&nbsp;&nbsp;</a>
-                            <h1 style="color: rgb(255,255,255);font-size: 21px;">/</h1><a href="#">&nbsp; Supprimer&nbsp;</a></div>
-                    </div>
-                </div>
-            </div>
         </section>
     </main>
-        <div th:replace="~{/layout/footer :: footer}"></div>
-        <div th:include="~{/layout/scripts :: scripts}"></div>
+    <div th:replace="~{/layout/footer :: footer}"></div>
+    <div th:include="~{/layout/scripts :: scripts}"></div>
 </body>
 
 </html>
