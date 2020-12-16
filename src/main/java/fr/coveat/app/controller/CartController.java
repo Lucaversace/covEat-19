@@ -37,6 +37,7 @@ public class CartController {
         if(this.cart != null && !this.cart.isEmpty()){
             model.addAttribute("cartEmpty",false);
             model.addAttribute("cart", dishRepository.findAllById(this.cart));
+            model.addAttribute("quantities", session.getAttribute("quantities"));
         }
         return "/cart/home_cart";
     }
@@ -70,6 +71,7 @@ public class CartController {
 
                 }
                 System.out.println("Quantity:"+quantities);
+                session.setAttribute("quantities", quantities);
 //                System.out.println(session.getAttribute("cart"));
             }
         }
