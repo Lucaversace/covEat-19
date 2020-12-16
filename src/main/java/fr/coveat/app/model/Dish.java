@@ -33,7 +33,8 @@ public class Dish {
     private Restaurant restaurant;
 
     @NotNull
-    @Column(name = "image_url", nullable = false)
+    @Lob
+    @Column(name = "image_url", nullable = false, columnDefinition = "MEDIUMBLOB")
     private String imageUrl;
 
 }
