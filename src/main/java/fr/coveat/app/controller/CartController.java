@@ -64,10 +64,14 @@ public class CartController implements SecurityService{
         HttpSession session = request.getSession();
         if (dishRepository.existsById(id) && session.getAttribute("cart") != null) {
             this.cart = (ArrayList<Long>) session.getAttribute("cart");
+            Dish dish = this.dishRepository.getOne(id);
+            if(session.getAttribute("restaurant_id") != dish.getRestaurant().getId()){
+                this.cart.clear();
+            }
             if (this.cart != null){
                 this.cart.add(id);
                 session.setAttribute("cart", this.cart);
-
+                session.setAttribute("restaurant_id", dish.getRestaurant().getId());
             }
         }
         return "redirect:/cart";
