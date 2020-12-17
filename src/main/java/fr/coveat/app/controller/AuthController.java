@@ -59,6 +59,10 @@ public class AuthController {
         String email = loginFormUser.getEmail();
         String password = loginFormUser.getPassword();
 
+        Restaurant sessionRestorer = (Restaurant) request.getSession().getAttribute("restaurant");
+        if (sessionRestorer != null && !sessionRestorer.getEmail().isEmpty()){
+            return "redirect:/logout";
+        }
         User user = userRepository.findByEmail(email);
         if (user != null){
             String hashPass = user.getPassword();
@@ -199,7 +203,13 @@ public class AuthController {
         String email = loginForm.getEmail();
         String password = loginForm.getPassword();
 
+        User sessionUser = (User) request.getSession().getAttribute("user");
+        if (sessionUser != null && !sessionUser.getEmail().isEmpty()){
+            return "redirect:/logout";
+        }
+
         Restaurant restaurant = restorerRepository.findByEmail(email);
+
         if (restaurant != null){
             String hashPass = restaurant.getPassword();
 
