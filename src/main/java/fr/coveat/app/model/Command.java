@@ -39,7 +39,7 @@ public class Command {
 
     @Column(nullable = false)
     @NotNull
-    private float price_total;
+    private double price_total;
 
     @Column(nullable = false)
     @NotNull

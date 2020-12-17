@@ -31,5 +31,5 @@ public class CommandDetails {
     private int quantity;
 
     @NotNull
-    private float price;
+    private double price;
 }
