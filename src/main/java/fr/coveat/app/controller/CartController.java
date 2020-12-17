@@ -39,19 +39,21 @@ public class CartController {
             Collections.sort(this.cart);
             List<Integer> quantities = new ArrayList<Integer>();
             List<Long> id_passed = new ArrayList<Long>();
-            for (Long id2: this.cart){
-                if(!id_passed.contains(id2)){
-                    id_passed.add(id2);
-                    quantities.add(Collections.frequency(this.cart, id2));
+            double total = 0.0;
+            for (Long dishId: this.cart){
+                if(!id_passed.contains(dishId)){
+                    id_passed.add(dishId);
+                    quantities.add(Collections.frequency(this.cart, dishId));
+                    total += Collections.frequency(this.cart, dishId)*dishRepository.getOne(dishId).getPrice();
                 }
-
             }
-            System.out.println("Quantity:"+quantities);
+//            System.out.println("Quantity:"+quantities);
             session.setAttribute("quantities", quantities);
-            System.out.println(dishRepository.findAllById(this.cart));
+//            System.out.println(dishRepository.findAllById(this.cart));
             model.addAttribute("cartEmpty",false);
             model.addAttribute("cart", dishRepository.findAllById(this.cart));
             model.addAttribute("quantities", session.getAttribute("quantities"));
+            model.addAttribute("total", total);
         }
         return "/cart/home_cart";
     }
