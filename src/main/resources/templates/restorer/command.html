@@ -27,21 +27,21 @@
         </div>
         <table class="table my-5">
             <thead>
-            <tr>
-                <th scope="col" class="text-white">Image</th>
-                <th scope="col" class="text-white">Plat</th>
-                <th scope="col" class="text-white">Prix unit.</th>
-                <th scope="col" class="text-white">Quantité</th>
-                <th scope="col" class="text-white">Prix TTC</th>
+            <tr class="d-flex">
+                <th scope="col" class="text-white col-4">Image</th>
+                <th scope="col" class="text-white col-2">Plat</th>
+                <th scope="col" class="text-white col-2">Prix unit.</th>
+                <th scope="col" class="text-white col-2">Quantité</th>
+                <th scope="col" class="text-white col-2">Prix TTC</th>
             </tr>
             </thead>
             <tbody th:each="command_detail : ${commands_details}">
-            <tr>
-                <td class="text-white"><img class="" th:src="*{'data:image/jpg;base64,'+{command_detail.dish.imageUrl}}"></td>
-                <td class="text-white text-capitalize" th:text="${command_detail.dish.name}"></td>
-                <td class="text-white"><span th:text="${command_detail.dish.price}"></span>€</td>
-                <td class="text-white" th:text="${command_detail.quantity}"></td>
-                <td class="text-white"><span th:text="${command_detail.price}"></span>€</td>
+            <tr class="d-flex">
+                <td class="text-white col-4"><img class="col-12" th:src="*{'data:image/jpg;base64,'+{command_detail.dish.imageUrl}}"></td>
+                <td class="text-white text-capitalize col-2" th:text="${command_detail.dish.name}"></td>
+                <td class="text-white col-2"><span th:text="${command_detail.dish.price}"></span> €</td>
+                <td class="text-white col-2" th:text="${command_detail.quantity}"></td>
+                <td class="text-white col-2"><span th:text="${command_detail.price}"></span> €</td>
             </tr>
             </tbody>
         </table>

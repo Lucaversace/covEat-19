@@ -113,7 +113,7 @@ public class RestorerController implements SecurityService {
         if(!checkConnected(request, "restaurant")){return "redirect:/login_restorer";}
         if (dishRepository.existsById(id)) {
             Dish dish = dishRepository.getOne(id);
-            if((Restaurant) request.getSession().getAttribute("restaurant") == dish.getRestaurant()){
+            if(((Restaurant) request.getSession().getAttribute("restaurant")).getEmail().equals(dish.getRestaurant().getEmail())){
                 model.addAttribute("dishForm", dish);
                 return "restorer/edit_dish";
             }
@@ -126,7 +126,7 @@ public class RestorerController implements SecurityService {
         if(!checkConnected(request, "restaurant")){return "redirect:/login_restorer";}
         if (dishRepository.existsById(id)) {
             Dish dish = dishRepository.getOne(id);
-            if((Restaurant) request.getSession().getAttribute("restaurant") == dish.getRestaurant()){
+            if(((Restaurant) request.getSession().getAttribute("restaurant")).getEmail().equals(dish.getRestaurant().getEmail())){
                 if(dishForm.getName() != null && dishForm.getPrice() != null && dishForm.getDescription() != null && dishForm.getImageUrl() != null){
                     String name = dishForm.getName();
                     Double price = dishForm.getPrice();
@@ -165,7 +165,7 @@ public class RestorerController implements SecurityService {
     public String deleteDish(@PathVariable("id") Long id, HttpServletRequest request) {
         if(!checkConnected(request, "restaurant")){return "redirect:/login_restorer";}
         if (dishRepository.existsById(id)) {
-            if((Restaurant) request.getSession().getAttribute("restaurant") == dishRepository.getOne(id).getRestaurant()){
+            if(((Restaurant) request.getSession().getAttribute("restaurant")).getEmail().equals(dishRepository.getOne(id).getRestaurant().getEmail())){
                 dishRepository.deleteById(id);
             }
         }
