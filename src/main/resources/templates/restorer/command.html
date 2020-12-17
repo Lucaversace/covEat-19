@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<div th:replace="~{/layout/head :: head}"></div>
+<div th:replace="~{/layout/header :: header}"></div>
+
+<body style="color: #2b3245;background: #171a23;">
+<main class="container" style="margin-top: 152px;">
+    <div style="background: rgba(255,255,255,0.12);border-radius: 20px;padding: 30px;margin: 140px 70px 30px">
+        <h1 style="color: rgb(255,255,255);margin-bottom: 28px;" class="text-capitalize">Commande n°<span th:text="${commands_details[0].command.id}"></span></h1>
+        <hr class="mx-0 col-4 border-bottom border-white">
+        <div>
+            <h4 class="text-white">Info :</h4>
+            <ul>
+                <li class="text-white">Total TTC : <span th:text="${commands_details[0].command.price_total}"></span> €</li>
+                <li class="text-white">Addresse de livraison:
+                    <ul>
+                        <li class="text-white" th:text="${commands_details[0].command.address.street}"></li>
+                        <li class="text-white" th:text="${commands_details[0].command.address.zipCode}"></li>
+                        <li class="text-white" th:text="${commands_details[0].command.address.city}"></li>
+                    </ul>
+                </li>
+                <li class="text-white">État : <span th:text="${commands_details[0].command.state.name}"></span></li>
+                <li class="text-white">Email du client : <span th:text="${commands_details[0].command.user.email}"></span></li>
+            </ul>
+        </div>
+        <table class="table my-5">
+            <thead>
+            <tr>
+                <th scope="col" class="text-white">Image</th>
+                <th scope="col" class="text-white">Plat</th>
+                <th scope="col" class="text-white">Prix unit.</th>
+                <th scope="col" class="text-white">Quantité</th>
+                <th scope="col" class="text-white">Prix TTC</th>
+            </tr>
+            </thead>
+            <tbody th:each="command_detail : ${commands_details}">
+            <tr>
+                <td class="text-white"><img class="" th:src="*{'data:image/jpg;base64,'+{command_detail.dish.imageUrl}}"></td>
+                <td class="text-white text-capitalize" th:text="${command_detail.dish.name}"></td>
+                <td class="text-white"><span th:text="${command_detail.dish.price}"></span>€</td>
+                <td class="text-white" th:text="${command_detail.quantity}"></td>
+                <td class="text-white"><span th:text="${command_detail.price}"></span>€</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+<div th:replace="~{/layout/footer :: footer}"></div>
+<div th:include="~{/layout/scripts :: scripts}"></div>
+</body>
+
+</html>

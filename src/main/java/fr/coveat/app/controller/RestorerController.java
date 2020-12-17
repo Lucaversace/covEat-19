@@ -1,10 +1,10 @@
 package fr.coveat.app.controller;
 
 import fr.coveat.app.form.DishForm;
+import fr.coveat.app.model.Command;
 import fr.coveat.app.model.Dish;
 import fr.coveat.app.model.Restaurant;
-import fr.coveat.app.repository.DishRepository;
-import fr.coveat.app.repository.RestorerRepository;
+import fr.coveat.app.repository.*;
 import fr.coveat.app.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -17,23 +17,56 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.List;
 import java.util.Objects;
 
 @Controller
 public class RestorerController implements SecurityService {
-    @Autowired
     private DishRepository dishRepository;
     private RestorerRepository restorerRepository;
+    private CommandRepository commandRepository;
+    private CommandDetailsRepository commandDetailsRepository;
+
+    RestorerController(
+            CommandRepository commandRepository,
+            DishRepository dishRepository,
+            RestorerRepository restorerRepository,
+            CommandDetailsRepository commandDetailsRepository
+    ) {
+        this.commandRepository = commandRepository;
+        this.dishRepository = dishRepository;
+        this.restorerRepository = restorerRepository;
+        this.commandDetailsRepository = commandDetailsRepository;
+    }
+
 
     @RequestMapping(value = {"/restorer/","/restorer"}, method = RequestMethod.GET )
     public String getDish(Model model, HttpServletRequest request) {
         if(!checkConnected(request, "restaurant")){return "redirect:/login_restorer";}
         model.addAttribute("dishes",
-                dishRepository.findByRestaurant(
-                    (Restaurant) request.getSession().getAttribute("restaurant")
+            dishRepository.findByRestaurant(
+                (Restaurant) request.getSession().getAttribute("restaurant")
+            )
+        );
+        model.addAttribute("commands",
+                commandRepository.findByRestaurant(
+                        (Restaurant) request.getSession().getAttribute("restaurant")
                 )
         );
         return "restorer/dish_list";
+    }
+
+    @RequestMapping(value = {"/restorer/command/{id}"}, method = RequestMethod.GET )
+    public String getCommand(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
+        if(!checkConnected(request, "restaurant")){return "redirect:/login_restorer";}
+        if (commandRepository.existsById(id)) {
+            Command command = commandRepository.getOne(id);
+            if(((Restaurant) request.getSession().getAttribute("restaurant")).getEmail().equals(command.getRestaurant().getEmail())) {
+                model.addAttribute("commands_details", commandDetailsRepository.findByCommand(command));
+                return "restorer/command";
+            }
+        }
+        return "redirect:/restorer/";
     }
 
     @RequestMapping(value = {"/restorer/add_dish"}, method = RequestMethod.GET )

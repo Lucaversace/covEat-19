@@ -21,14 +21,14 @@ public class IndexController implements SecurityService {
 
     @RequestMapping(value = {"/"}, method = RequestMethod.GET )
     public String home(Model model, HttpServletRequest request) {
-        if(!checkConnected(request, "user")){return "redirect:/login";}
+        if(!checkConnected(request, "user") && !checkConnected(request, "restaurant")){return "redirect:/login";}
         model.addAttribute("dishes", dishRepository.findAll());
         return "home";
     }
 
     @RequestMapping(value = {"dish/{id}"}, method = RequestMethod.GET )
     public String getDish(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
-        if(!checkConnected(request, "user")){return "redirect:/login";}
+        if(!checkConnected(request, "user") && !checkConnected(request, "restaurant")){return "redirect:/login";}
         if (dishRepository.existsById(id)) {
             model.addAttribute("dish", dishRepository.getOne(id));
             return "dish";

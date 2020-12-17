@@ -62,7 +62,11 @@ public class CartController implements SecurityService{
     public String addDish(@PathVariable("id") Long id, HttpServletRequest request){
         if(!checkConnected(request, "user")){return "redirect:/login";}
         HttpSession session = request.getSession();
-        if (dishRepository.existsById(id) && session.getAttribute("cart") != null) {
+        if(session.getAttribute("cart") == null){
+            this.cart = new ArrayList<Long>();
+            session.setAttribute("cart", this.cart);
+        }
+        if (dishRepository.existsById(id)) {
             this.cart = (ArrayList<Long>) session.getAttribute("cart");
             Dish dish = this.dishRepository.getOne(id);
             if(session.getAttribute("restaurant_id") != dish.getRestaurant().getId()){
