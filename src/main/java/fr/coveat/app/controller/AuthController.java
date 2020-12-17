@@ -56,19 +56,20 @@ public class AuthController {
     @RequestMapping(value = {"login"}, method = RequestMethod.POST )
     public String login(Model model, HttpServletRequest request,
                         @ModelAttribute("loginFormUser") LoginFormUser loginFormUser) {
-
         String email = loginFormUser.getEmail();
         String password = loginFormUser.getPassword();
 
         User user = userRepository.findByEmail(email);
-        String hashPass = user.getPassword();
+        if (user != null){
+            String hashPass = user.getPassword();
 
-        if (BCrypt.checkpw(password, hashPass)){
-            HttpSession session = request.getSession();
-            session.setAttribute("user", user );
-            Object user_session = session.getAttribute("user");
-
-            System.out.println(user_session);
+            if (BCrypt.checkpw(password, hashPass)){
+                HttpSession session = request.getSession();
+                session.setAttribute("user", user );
+    //            Object user_session = session.getAttribute("user");
+    //            System.out.println(user_session);
+                return "redirect:/";
+            }
         }
         return "login";
     }
@@ -199,15 +200,15 @@ public class AuthController {
         String password = loginForm.getPassword();
 
         Restaurant restaurant = restorerRepository.findByEmail(email);
-        String hashPass = restaurant.getPassword();
+        if (restaurant != null){
+            String hashPass = restaurant.getPassword();
 
-        if (BCrypt.checkpw(password, hashPass)){
-            HttpSession session = request.getSession();
-            session.setAttribute("restaurant", restaurant );
-            Object restaurant_session = session.getAttribute("restaurant");
-
-            System.out.println(restaurant_session);
-            return "redirect:/restorer";
+            if (BCrypt.checkpw(password, hashPass)){
+                HttpSession session = request.getSession();
+                session.setAttribute("restaurant", restaurant );
+                Object restaurant_session = session.getAttribute("restaurant");
+                return "redirect:/restorer";
+            }
         }
         return "redirect:/login_restorer";
     }

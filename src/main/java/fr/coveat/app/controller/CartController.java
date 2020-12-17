@@ -1,8 +1,8 @@
 package fr.coveat.app.controller;
 
 
-//import fr.coveat.app.model.CartLineInfo;
 import fr.coveat.app.model.Dish;
+import fr.coveat.app.service.SecurityService;
 import fr.coveat.app.repository.DishRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +14,7 @@ import java.util.*;
 
 @Controller
 @RequestMapping("/cart")
-public class CartController {
+public class CartController implements SecurityService{
 
     private DishRepository dishRepository;
     List<Long> cart = new ArrayList<Long>();
@@ -25,9 +25,9 @@ public class CartController {
 
     @RequestMapping(value={"","/"}, method = RequestMethod.GET)
     public String home(Model model, HttpServletRequest request) {
+        if(!checkConnected(request, "user")){return "redirect:/login";}
         HttpSession session = request.getSession();
         this.cart = ((ArrayList<Long>) session.getAttribute("cart"));
-        System.out.println(this.cart);
 
         if(this.cart == null){
             this.cart = new ArrayList<Long>();
@@ -60,6 +60,7 @@ public class CartController {
 
     @RequestMapping(value={"/add/{id}"}, method = RequestMethod.GET)
     public String addDish(@PathVariable("id") Long id, HttpServletRequest request){
+        if(!checkConnected(request, "user")){return "redirect:/login";}
         HttpSession session = request.getSession();
         if (dishRepository.existsById(id) && session.getAttribute("cart") != null) {
             this.cart = (ArrayList<Long>) session.getAttribute("cart");
@@ -74,6 +75,7 @@ public class CartController {
 
     @RequestMapping(value={"/remove/{id}"}, method = RequestMethod.GET)
     public String removeDish(@PathVariable("id") Long id, HttpServletRequest request) {
+        if(!checkConnected(request, "user")){return "redirect:/login";}
         HttpSession session = request.getSession();
         if (dishRepository.existsById(id) && session.getAttribute("cart") != null) {
             this.cart = (ArrayList<Long>) session.getAttribute("cart");
@@ -86,6 +88,7 @@ public class CartController {
     }
     @RequestMapping(value={"/delete/{id}"}, method = RequestMethod.GET)
     public String deleteDish(@PathVariable("id") Long id, HttpServletRequest request) {
+        if(!checkConnected(request, "user")){return "redirect:/login";}
         HttpSession session = request.getSession();
         if (dishRepository.existsById(id) && session.getAttribute("cart") != null) {
             this.cart = (ArrayList<Long>) session.getAttribute("cart");
