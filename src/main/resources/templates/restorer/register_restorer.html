@@ -7,7 +7,7 @@
 <body style="color: rgb(36,44,59);background: #171a25;">
 <div th:replace="~{/layout/header :: header}"></div>
     <div class="login-dark" style="color: rgb(30,37,50);">
-        <form th:action="@{/register_restorer}" th:object="${restorerForm}" method="POST" style="background: #2e3240;height: 599px;width: 800px;border-radius: 7px;">
+        <form th:action="@{/register_restorer}" th:object="${restorerForm}" method="POST" style="background: #2e3240;width: 800px;border-radius: 7px;">
             <h1 class="text-center">Inscription Restaurateur</h1>
             <div class="form-group d-flex row" style="margin-top: 41px;">
                 <input th:field="*{name}" class="form-control" type="text" name="name" placeholder="Nom du restaurant" style="width: 300px;">
@@ -18,8 +18,9 @@
             </div>
             <div class="form-group d-flex row" style="margin-top: 34px;">
                 <input th:field="*{password}" id="pass" class="form-control" type="password" name="password" placeholder="Mot de passe" style="margin-left: 0px;width: 300px;">
-                <input th:field="*{confPassword}" class="form-control" id="confpass" type="password" name="conf_password" placeholder="Confirmer votre mot de passe" style="margin-left: 120px;width: 300px;">
+                <input th:field="*{confPassword}" class="form-control" id="confpass" type="password" name="confPassword" placeholder="Confirmer votre mot de passe" style="margin-left: 120px;width: 300px;">
             </div>
+            <span class="error d-none" id="errorPassword" style="color:red;font-size:10px;">8 caractères obligatoire : une majuscule, une minuscule, un chiffre minimun</span>
             <div class="form-group d-flex flex-wrap row" style="margin-top: 38px;">
                 <input th:field="*{street}" class="form-control" type="text" name="street" placeholder="Adresse">
             </div>

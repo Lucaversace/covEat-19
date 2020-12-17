@@ -4,6 +4,7 @@ import fr.coveat.app.form.DishForm;
 import fr.coveat.app.model.Dish;
 import fr.coveat.app.model.Restaurant;
 import fr.coveat.app.repository.DishRepository;
+import fr.coveat.app.repository.RestorerRepository;
 import fr.coveat.app.service.SecurityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -22,11 +23,16 @@ import java.util.Objects;
 public class RestorerController implements SecurityService {
     @Autowired
     private DishRepository dishRepository;
+    private RestorerRepository restorerRepository;
 
     @RequestMapping(value = {"/restorer/","/restorer"}, method = RequestMethod.GET )
     public String getDish(Model model, HttpServletRequest request) {
         if(!checkConnected(request, "restaurant")){return "redirect:/login_restorer";}
-        model.addAttribute("dishes", dishRepository.findAll(Sort.by("id").descending()));
+        model.addAttribute("dishes",
+                dishRepository.findByRestaurant(
+                    (Restaurant) request.getSession().getAttribute("restaurant")
+                )
+        );
         return "restorer/dish_list";
     }
 
@@ -47,9 +53,7 @@ public class RestorerController implements SecurityService {
             String description = dish.getDescription();
             String imageUrl = dish.getImageUrl();
 
-    	// TODO : A MODIFIER APRES LES SESSIONS
-            Restaurant restaurant = new Restaurant();
-            restaurant.setId(1L);
+            Restaurant restaurant = (Restaurant) request.getSession().getAttribute("restaurant");
 
             if(!name.isEmpty() && !price.isNaN() && !description.isEmpty() && !imageUrl.isEmpty()){
                 String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
@@ -75,8 +79,11 @@ public class RestorerController implements SecurityService {
     public String editDish(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
         if(!checkConnected(request, "restaurant")){return "redirect:/login_restorer";}
         if (dishRepository.existsById(id)) {
-            model.addAttribute("dishForm", dishRepository.getOne(id));
-            return "restorer/edit_dish";
+            Dish dish = dishRepository.getOne(id);
+            if((Restaurant) request.getSession().getAttribute("restaurant") == dish.getRestaurant()){
+                model.addAttribute("dishForm", dish);
+                return "restorer/edit_dish";
+            }
         }
         return "redirect:/restorer/";
     }
@@ -86,33 +93,34 @@ public class RestorerController implements SecurityService {
         if(!checkConnected(request, "restaurant")){return "redirect:/login_restorer";}
         if (dishRepository.existsById(id)) {
             Dish dish = dishRepository.getOne(id);
+            if((Restaurant) request.getSession().getAttribute("restaurant") == dish.getRestaurant()){
+                if(dishForm.getName() != null && dishForm.getPrice() != null && dishForm.getDescription() != null && dishForm.getImageUrl() != null){
+                    String name = dishForm.getName();
+                    Double price = dishForm.getPrice();
+                    String description = dishForm.getDescription();
+                    String imageUrl = dishForm.getImageUrl();
 
-            if(dishForm.getName() != null && dishForm.getPrice() != null && dishForm.getDescription() != null && dishForm.getImageUrl() != null){
-                String name = dishForm.getName();
-                Double price = dishForm.getPrice();
-                String description = dishForm.getDescription();
-                String imageUrl = dishForm.getImageUrl();
+                    if(!name.isEmpty() && !price.isNaN() && !description.isEmpty() && !imageUrl.isEmpty()){
 
-                if(!name.isEmpty() && !price.isNaN() && !description.isEmpty() && !imageUrl.isEmpty()){
+                        dish.setName(name);
+                        dish.setPrice(price);
+                        dish.setDescription(description);
 
-                    dish.setName(name);
-                    dish.setPrice(price);
-                    dish.setDescription(description);
-
-                    if(!dish.getImageUrl().equals(imageUrl)){
-                        String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
-                        if(fileName.contains(".."))
-                        {
-                            System.out.println("not a a valid file");
+                        if(!dish.getImageUrl().equals(imageUrl)){
+                            String fileName = StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+                            if(fileName.contains(".."))
+                            {
+                                System.out.println("not a a valid file");
+                            }
+                            try {
+                                dish.setImageUrl(Base64.getEncoder().encodeToString(multipartFile.getBytes()));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                         }
-                        try {
-                            dish.setImageUrl(Base64.getEncoder().encodeToString(multipartFile.getBytes()));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+
+                        dishRepository.save(dish);
                     }
-
-                    dishRepository.save(dish);
                 }
             }
         }
@@ -124,7 +132,9 @@ public class RestorerController implements SecurityService {
     public String deleteDish(@PathVariable("id") Long id, HttpServletRequest request) {
         if(!checkConnected(request, "restaurant")){return "redirect:/login_restorer";}
         if (dishRepository.existsById(id)) {
-            dishRepository.deleteById(id);
+            if((Restaurant) request.getSession().getAttribute("restaurant") == dishRepository.getOne(id).getRestaurant()){
+                dishRepository.deleteById(id);
+            }
         }
         return "redirect:/restorer/";
     }
