@@ -14,6 +14,7 @@
                     <img class="img-fluid figure-img" th:src="*{'data:image/jpg;base64,'+{dish.imageUrl}}" style="border-radius: 0px;width: 300px;">
                     <figcaption th:utext="${dish.name}" class="figure-caption text-capitalize" style="font-size: 26px;color: rgb(255,255,255);"></figcaption>
                     <figcaption class="figure-caption" style="font-size: 17px;color: rgb(255,255,255);">Prix: <span th:utext="${dish.price}"></span></figcaption>
+                    <p>ID: <span class="text-white" th:utext="${dish.restaurant.name}"></span></p>
                     <a class="btn btn-danger col-12" th:href="@{/dish/{id}(id=${dish.id})}">Voir Plus</a>
                 </figure>
             </div>
